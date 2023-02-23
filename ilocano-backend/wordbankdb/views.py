@@ -8,4 +8,10 @@ from wordbankdb.models import WordBank
 class WordBankView(viewsets.ModelViewSet):
     """Query for all objects in Wordbank"""
     serializer_class = WordBankSerializer
-    queryset = WordBank.objects.all()
+
+    def get_queryset(self):
+        queryset = WordBank.objects.all()
+        lesson_number = self.request.query_params.get('lesson_number')
+        if lesson_number is not None:
+            queryset = queryset.filter(lesson_number = lesson_number)
+        return queryset

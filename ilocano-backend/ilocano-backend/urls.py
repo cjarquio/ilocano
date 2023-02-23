@@ -23,5 +23,6 @@ router.register(r'words', views.WordBankView, 'wordbank')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include(router.urls))
+    path('api/', include(router.urls)),
+    path('api/words?lesson_number=<int:lesson_number>', views.WordBankView.as_view({'get': 'list'}))
 ]
