@@ -32,7 +32,7 @@ const VocabTable: React.FC<VocabTableProps> = (props: VocabTableProps) =>  {
 
   const refreshList = () => {
     axios
-      .get("/api/words/")
+      .get(`/api/words/?lesson_number=${lessonNumber}`)
       .then((res) => setWords(res.data) )
       .catch((err) => console.log(err));
   };

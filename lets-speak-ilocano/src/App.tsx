@@ -9,7 +9,7 @@ import VocabTable from "./components/VocabTable/VocabTable"
 export const App = () => (
   <ChakraProvider theme={theme}>
     <Box>
-      <VocabTable lessonNumber={2} />
+      <VocabTable lessonNumber={1} />
     </Box>
   </ChakraProvider>
 )
