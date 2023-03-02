@@ -7,4 +7,4 @@ class WordBankSerializer(serializers.ModelSerializer):
     class Meta:
         """Information from word bank to be converted"""
         model = WordBank
-        fields = ('id', 'word', 'pronunciation', 'translation', 'lesson_number')
+        fields = ('id', 'category', 'english', 'ilokano', 'variations', 'lesson_number')
