@@ -11,7 +11,7 @@ class WordBankView(viewsets.ModelViewSet):
 
     def get_queryset(self):
         queryset = WordBank.objects.all()
-        lesson_number = self.request.query_params.get('lesson_number')
-        if lesson_number is not None:
-            queryset = queryset.filter(lesson_number = lesson_number)
+        current_lesson = self.request.query_params.get('lesson_number')
+        if current_lesson is not None:
+            queryset = queryset.filter(lesson_number = current_lesson)
         return queryset

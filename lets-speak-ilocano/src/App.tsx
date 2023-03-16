@@ -4,12 +4,12 @@ import {
   Box,
   theme,
 } from "@chakra-ui/react"
-import VocabTable from "./components/VocabTable/VocabTable"
+import DialogTable from "./components/VocabTable/DialogTable"
 
 export const App = () => (
   <ChakraProvider theme={theme}>
     <Box>
-      <VocabTable lessonNumber={1} />
+      <DialogTable lessonNumber={1} />
     </Box>
   </ChakraProvider>
 )

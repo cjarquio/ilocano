@@ -10,33 +10,31 @@ import {
   TableContainer,
 } from '@chakra-ui/react'
 
-interface VocabTableProps {
+interface DialogTableProps {
   lessonNumber: number
 }
 
-interface VocabWordsProps {
-  id: number
-  word: string
-  pronunciation: string
-  translation: string,
-  lesson_number?: number
+interface DialogWordsProps {
+  english: string,
+  ilokano: string
 }
 
-const VocabTable: React.FC<VocabTableProps> = (props: VocabTableProps) =>  {
+const DialogTable: React.FC<DialogTableProps> = (props: DialogTableProps) =>  {
   const { lessonNumber } = props
-  const [words, setWords] = useState<VocabWordsProps[]>([])
+  const [words, setWords] = useState<DialogWordsProps[]>([])
 
   useEffect(() => {
-    refreshList()
-  }, [])
+    const refreshList = () => {
+      axios
+        .get(`/api/words/?lesson_number=${lessonNumber}`)
+        .then((res) => {
+          setWords(res.data)
+        })
+        .catch((err) => console.log(err));
+    }
 
-  const refreshList = () => {
-    axios
-      .get(`/api/words/?lesson_number=${lessonNumber}`)
-      .then((res) => setWords(res.data) )
-      .catch((err) => console.log(err));
-  };
-  
+    refreshList()
+  }, [lessonNumber])
 
   return (
     <TableContainer display={'flex'} >
@@ -51,9 +49,9 @@ const VocabTable: React.FC<VocabTableProps> = (props: VocabTableProps) =>  {
           {
             words && words.map((word)=>{
               return(
-                <Tr>
-                  <Td>{word.word}</Td>
-                  <Td>{word.translation}</Td>
+                <Tr key={word.ilokano}>
+                  <Td>{word.ilokano}</Td>
+                  <Td>{word.english}</Td>
                 </Tr>
               )
             })
@@ -64,4 +62,4 @@ const VocabTable: React.FC<VocabTableProps> = (props: VocabTableProps) =>  {
   );
 }
 
-export default VocabTable;
+export default DialogTable;
