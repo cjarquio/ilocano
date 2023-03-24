@@ -57,3 +57,20 @@ You can learn more in the
 [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
+
+## Notes
+
+This application is based off book Let's Speak Ilokano. Each section goes along in the following order:
+
+I. Dialog
+II. Translating the Dialog
+III. Learning the Dialog
+IV. Role-Playing
+V. Vocabulary
+VI. Changing the Dialog
+VII. Question and Answer
+VIII. Noets
+IX. Exercises
+X. Communication Activity
+XI. Writing Practice
+XII. Listening Practice
