@@ -13,5 +13,5 @@ class WordBankView(viewsets.ModelViewSet):
         queryset = WordBank.objects.all()
         current_lesson = self.request.query_params.get('lesson_number')
         if current_lesson is not None:
-            queryset = queryset.filter(lesson_number = current_lesson)
+            queryset = queryset.filter(lesson_number = current_lesson).order_by('ilokano')
         return queryset

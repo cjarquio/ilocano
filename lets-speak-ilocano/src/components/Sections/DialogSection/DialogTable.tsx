@@ -37,7 +37,7 @@ const DialogTable: React.FC<DialogTableProps> = (props: DialogTableProps) =>  {
   }, [lessonNumber])
 
   return (
-    <TableContainer display={'flex'} >
+    <TableContainer display={'flex'} sx={{border: '1px solid black'}} >
       <Table variant='striped' size='sm'>
         <Thead>
           <Tr>
