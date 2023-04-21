@@ -1,29 +1,44 @@
 import {
-  Box, Text
+  Box, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr
 } from '@chakra-ui/react'
-import DialogTable from './DialogTable'
 
-export const DialogSection = () => {
-  // TODO: 
-  const dialog = [
-    'A: Naimbag a bigatmo, Mis.',
-    'B: Naimbag a bigatmo, met.',
-    'A: Ania ti naganmo, Mis?',
-    'B: Luz ti naganko.',
-    'A: Ania ti apelyidom?',
-    'B: Ulep ti apelyidok.',
-    'A: Aya? Ay, Ulep met ti apelyido ni Nanangko!',
-    'B: Ay, kasta? Ania met ti naganmo?'
-  ]
+interface DialogSectionProps {
+  dialog: string[],
+  dialogWords: {ilocano: string, english: string}[]
+}
+
+export const DialogSection: React.FC<DialogSectionProps> = (props: DialogSectionProps) => {
+  const {dialog, dialogWords} = props
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'row' }}>
+    <Box sx={{ display: 'flex' }}>
       <Box>
         {
           dialog.map((dialog, index) => <Text sx={{ padding: '0.5rem' }}>{index + 1}. {dialog}</Text>)
         }
       </Box>
-      <DialogTable lessonNumber={1} />
+      <TableContainer display={'flex'} sx={{ border: '1px solid black' }} >
+        <Table variant='striped' size='sm'>
+          <Thead>
+            <Tr>
+              <Th>Ilocano</Th>
+              <Th>English</Th>
+            </Tr>
+          </Thead>
+          <Tbody>
+            {
+              dialogWords.map((word) => {
+                return (
+                  <Tr key={word.ilocano}>
+                    <Td>{word.ilocano}</Td>
+                    <Td>{word.english}</Td>
+                  </Tr>
+                )
+              })
+            }
+          </Tbody>
+        </Table>
+      </TableContainer>
     </Box>
   )
 }

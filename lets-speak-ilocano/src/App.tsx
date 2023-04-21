@@ -3,14 +3,15 @@ import {
   Box,
   theme,
 } from '@chakra-ui/react'
-import { SectionWrapper } from './components/Sections/SectionWrapper/SectionWrapper'
-
+import { LessonWrapper } from './components/Sections/LessonWrapper/LessonWrapper'
+// TODO: Make api call for lesson content here
 export const App = () => (
+  // Add local storage here
   <ChakraProvider theme={theme}>
     <Box>
-      <SectionWrapper 
-        title='Getting to know you'
-        description='Study the following dialog. Try to understand the meaning of each sentence by referring to the literal translations of the words on the right.'/>
+      {/** Add App header */}
+      <LessonWrapper currentLesson={1} currentSection={1} />
     </Box>
+    {/** TODO: Add footer with previous/next section buttons */}
   </ChakraProvider>
 )
