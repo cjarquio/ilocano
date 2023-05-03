@@ -27,5 +27,6 @@ router.register(r'section', views.SectionView, 'section')
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/lessons/?current_lesson=<int:current_lesson>&current_section=<int:current_section>', views.LessonView.as_view({'get': 'list'})),
+    path('api/lessons/routes', views.RouteView.as_view({'get': 'list'})),
     path('api/', include(router.urls))
 ]

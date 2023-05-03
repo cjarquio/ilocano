@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { Text } from '@chakra-ui/react'
-import axios from "axios";
+import axios from "axios"
 import { DialogSection } from '../DialogSection/DialogSection'
+import { useLocation } from 'react-router-dom'
+import { lessonNames, sectionTypes } from '../Lesson/lessonNames'
 
-interface LessonWrapperProps {
-  currentLesson: number,
-  currentSection: number,
+interface LessonComponentProps {
   showDialogSection?: boolean,
   children?: React.ReactNode
 }
@@ -18,12 +18,17 @@ interface LessonProps {
   dialog: string[]
 }
 
-export const LessonWrapper: React.FC<LessonWrapperProps> = (props: LessonWrapperProps) => {
-  const {currentLesson, currentSection, showDialogSection=true, children} = props
+export const Lesson: React.FC<LessonComponentProps> = (props: LessonComponentProps) => {
+  const {showDialogSection=true, children} = props
   const [lesson, setLesson] = useState<LessonProps>()
+  const location = useLocation()
 
   useEffect(() => {
     const refreshList = () => {
+      const pathnames = location.pathname.split('/').filter((path => path !== ''))
+      const currentLesson = lessonNames[pathnames[0] as keyof typeof lessonNames]
+      const currentSection = sectionTypes[pathnames[1] as keyof typeof sectionTypes]
+      
       axios
         .get(`/api/lessons/?current_lesson=${currentLesson}&&current_section=${currentSection}`)
         .then((res) => res.data)
@@ -32,12 +37,10 @@ export const LessonWrapper: React.FC<LessonWrapperProps> = (props: LessonWrapper
     }
 
     refreshList()
-  }, [currentLesson, currentSection])
+  }, [location.pathname])
 
   return (
-    // TODO: Immplement local storage to get lesson and section number
     <>
-      {/** Put Router here */}
       <Text fontSize={'xl'}>{lesson?.section[0].sectionType} {lesson?.title}</Text>
       <Text fontSize={'xl'}>{lesson?.section[0].description}</Text>
       {

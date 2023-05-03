@@ -61,3 +61,7 @@ class Section(models.Model):
         default=DIALOG,
     )
     description = models.TextField()
+
+    def __str__(self):
+        dotIndex = self.section_type.index('.') + 2
+        return self.section_type[dotIndex:].replace(" ", "").lower()

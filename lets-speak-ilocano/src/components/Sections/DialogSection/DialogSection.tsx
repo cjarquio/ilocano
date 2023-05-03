@@ -3,8 +3,8 @@ import {
 } from '@chakra-ui/react'
 
 interface DialogSectionProps {
-  dialog: string[],
-  dialogWords: {ilocano: string, english: string}[]
+  dialog?: string[],
+  dialogWords?: {ilocano: string, english: string}[]
 }
 
 export const DialogSection: React.FC<DialogSectionProps> = (props: DialogSectionProps) => {
@@ -14,7 +14,7 @@ export const DialogSection: React.FC<DialogSectionProps> = (props: DialogSection
     <Box sx={{ display: 'flex' }}>
       <Box>
         {
-          dialog.map((dialog, index) => <Text sx={{ padding: '0.5rem' }}>{index + 1}. {dialog}</Text>)
+          dialog?.map((dialog, index) => <Text sx={{ padding: '0.5rem' }} key={`${dialog}`}>{index + 1}. {dialog}</Text>)
         }
       </Box>
       <TableContainer display={'flex'} sx={{ border: '1px solid black' }} >
@@ -27,7 +27,7 @@ export const DialogSection: React.FC<DialogSectionProps> = (props: DialogSection
           </Thead>
           <Tbody>
             {
-              dialogWords.map((word) => {
+              dialogWords?.map((word) => {
                 return (
                   <Tr key={word.ilocano}>
                     <Td>{word.ilocano}</Td>
