@@ -16,13 +16,17 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
-from wordbankdb import views
+from ilocanodb import views
 
 router = routers.DefaultRouter()
+router.register(r'lessons', views.LessonView, 'lessons')
 router.register(r'words', views.WordBankView, 'wordbank')
+router.register(r'dialog', views.DialogView, 'dialog')
+router.register(r'section', views.SectionView, 'section')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include(router.urls)),
-    path('api/words?lesson_number=<int:lesson_number>', views.WordBankView.as_view({'get': 'list'}))
+    path('api/lessons/?current_lesson=<int:current_lesson>&current_section=<int:current_section>', views.LessonView.as_view({'get': 'list'})),
+    path('api/lessons/routes', views.RouteView.as_view({'get': 'list'})),
+    path('api/', include(router.urls))
 ]
