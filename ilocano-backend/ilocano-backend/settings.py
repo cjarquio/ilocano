@@ -43,7 +43,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
-    'wordbankdb',
+    'ilocanodb',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
