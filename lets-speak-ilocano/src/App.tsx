@@ -29,7 +29,7 @@ export const App = () => {
 
   return (
     <ChakraProvider theme={theme}>
-      <Box>
+      <Box padding={'1rem'}>
         {/** Add App header */}
         {routes ? <LsiRouter routes={routes} /> : <>This should be an error page</>}
       </Box>

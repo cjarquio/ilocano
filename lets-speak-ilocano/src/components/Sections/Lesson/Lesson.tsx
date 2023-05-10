@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react'
-import { Text } from '@chakra-ui/react'
+import { Box, Text } from '@chakra-ui/react'
 import axios from "axios"
 import { DialogSection } from '../DialogSection/DialogSection'
-import { useLocation } from 'react-router-dom'
 import { lessonNames, sectionTypes } from '../Lesson/lessonNames'
+import { TranslatingDialogSection } from '../TranslatingDialog/TranslatingDialogSection'
 
 interface LessonComponentProps {
-  showDialogSection?: boolean,
-  children?: React.ReactNode
+  currentLesson: string,
+  currentSection: string,
+  showDialogSection?: boolean
 }
 
 interface LessonProps {
@@ -19,35 +20,50 @@ interface LessonProps {
 }
 
 export const Lesson: React.FC<LessonComponentProps> = (props: LessonComponentProps) => {
-  const {showDialogSection=true, children} = props
+  const {currentLesson, currentSection, showDialogSection=true} = props
+  const [child, setChild] = useState<React.ReactNode>()
   const [lesson, setLesson] = useState<LessonProps>()
-  const location = useLocation()
+
+  const sectionContentStyles = {
+    padding: '0rem 3rem',
+    width: '100%'
+  }
 
   useEffect(() => {
     const refreshList = () => {
-      const pathnames = location.pathname.split('/').filter((path => path !== ''))
-      const currentLesson = lessonNames[pathnames[0] as keyof typeof lessonNames]
-      const currentSection = sectionTypes[pathnames[1] as keyof typeof sectionTypes]
-      
+      const apiLesson = lessonNames[currentLesson as keyof typeof lessonNames]
+      const apiSection = sectionTypes[currentSection as keyof typeof sectionTypes]
       axios
-        .get(`/api/lessons/?current_lesson=${currentLesson}&&current_section=${currentSection}`)
+        .get(`/api/lessons/?current_lesson=${apiLesson}&&current_section=${apiSection}`)
         .then((res) => res.data)
-        .then((currentLessonData) => setLesson(currentLessonData[0]))
+        .then((currentLessonData: LessonProps[]) => {
+          setLesson(currentLessonData[0])
+          switch(currentSection) {
+            case sectionTypes[2]:
+              setChild(<TranslatingDialogSection dialog={currentLessonData[0].dialog} />)
+          }
+        })
         .catch((err) => console.log(err));
     }
 
     refreshList()
-  }, [location.pathname])
+  }, [currentLesson, currentSection])
 
   return (
-    <>
+    <Box>
       <Text fontSize={'xl'}>{lesson?.section[0].sectionType} {lesson?.title}</Text>
       <Text fontSize={'xl'}>{lesson?.section[0].description}</Text>
-      {
-        showDialogSection && lesson && <DialogSection dialog={lesson.dialog} dialogWords={lesson.words_for_lesson} />
-      }
-      {children}
-    </>
+      <Box sx={{display: 'flex', flexDirection: 'row', padding: '0 3rem'}}>
+        <Box sx={{width: '100%'}}>
+          {
+            showDialogSection && lesson && <DialogSection dialog={lesson.dialog} dialogWords={lesson.words_for_lesson} />
+          }
+        </Box>
+        <Box sx={sectionContentStyles}>
+          {child}
+        </Box>
+      </Box>
+    </Box>
   )
 }
 

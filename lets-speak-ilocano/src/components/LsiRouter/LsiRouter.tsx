@@ -27,20 +27,18 @@ const NoMatch = () => {
 
 export const LsiRouter: React.FC<LsiRouterProps> = (props: LsiRouterProps) => {
   const {routes} = props
+
   const allRoutes = routes.map(route => {
-    const routeArray = route.section.map(section => `/${route.title}/${section}`)
-    routeArray.push(`${route.title}`)
-    return routeArray
+    return route.section.map(section => {
+      const path = `/${route.title}/${section}`
+      return <Route path={path} element={<Lesson currentLesson={route.title} currentSection={section} />} key={path} />
+    })
   }).flat()
 
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />
-      {
-        allRoutes.map(route => (
-          <Route path={route} element={<Lesson>{route}</Lesson>} key={route} />
-        ))
-      }
+      {allRoutes}
       <Route path="*" element={<NoMatch />} />
     </Routes>
   )
