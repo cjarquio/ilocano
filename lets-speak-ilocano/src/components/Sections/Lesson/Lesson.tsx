@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Box, Text } from '@chakra-ui/react'
-import axios from "axios"
+import axios from 'axios'
 import { DialogSection } from '../DialogSection/DialogSection'
 import { lessonNames, sectionTypes } from '../Lesson/lessonNames'
 import { TranslatingDialogSection } from '../TranslatingDialog/TranslatingDialogSection'
@@ -43,7 +43,7 @@ export const Lesson: React.FC<LessonComponentProps> = (props: LessonComponentPro
               setChild(<TranslatingDialogSection dialog={currentLessonData[0].dialog} />)
           }
         })
-        .catch((err) => console.log(err));
+        .catch((err) => console.log(err))
     }
 
     refreshList()
