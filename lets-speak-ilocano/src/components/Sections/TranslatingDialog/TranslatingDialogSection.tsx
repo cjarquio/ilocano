@@ -5,7 +5,7 @@ interface DialogSectionProps {
   dialog: string[]
 }
 
-export const TranslatingDialogSection: React.FC<DialogSectionProps> = (props: DialogSectionProps) => {
+const TranslatingDialogSection: React.FC<DialogSectionProps> = (props: DialogSectionProps) => {
   const {dialog} = props
 
   const [studentResponses, setStudentResponses] = useState<string[]>(dialog.map(() => ''))
@@ -39,3 +39,5 @@ export const TranslatingDialogSection: React.FC<DialogSectionProps> = (props: Di
     </FormControl>
   )
 }
+
+export default TranslatingDialogSection

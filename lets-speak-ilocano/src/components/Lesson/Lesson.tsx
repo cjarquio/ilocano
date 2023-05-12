@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { Box, Text } from '@chakra-ui/react'
-import axios from 'axios'
-import { DialogSection } from '../DialogSection/DialogSection'
-import { lessonNames, sectionTypes } from '../Lesson/lessonNames'
-import { TranslatingDialogSection } from '../TranslatingDialog/TranslatingDialogSection'
+import axios from "axios"
+import { DialogSection } from '../Sections/DialogSection/DialogSection'
+import { lessonNames, sectionTypes } from './lessonNames'
+import {TranslatingDialogSection} from '../Sections/'
 
 interface LessonComponentProps {
   currentLesson: string,
@@ -30,7 +30,7 @@ export const Lesson: React.FC<LessonComponentProps> = (props: LessonComponentPro
   }
 
   useEffect(() => {
-    const refreshList = () => {
+    const displaySection = () => {
       const apiLesson = lessonNames[currentLesson as keyof typeof lessonNames]
       const apiSection = sectionTypes[currentSection as keyof typeof sectionTypes]
       axios
@@ -39,14 +39,16 @@ export const Lesson: React.FC<LessonComponentProps> = (props: LessonComponentPro
         .then((currentLessonData: LessonProps[]) => {
           setLesson(currentLessonData[0])
           switch(currentSection) {
-            case sectionTypes[2]:
-              setChild(<TranslatingDialogSection dialog={currentLessonData[0].dialog} />)
+            case sectionTypes[sectionTypes.translatingthedialog]:
+              return setChild(<TranslatingDialogSection dialog={currentLessonData[0].dialog} />)
+            default:
+              return <></>
           }
         })
-        .catch((err) => console.log(err))
+        .catch((err) => console.log(err));
     }
 
-    refreshList()
+    displaySection()
   }, [currentLesson, currentSection])
 
   return (

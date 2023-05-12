@@ -13,25 +13,11 @@ interface Route {
 }
 
 export const App = () => {
-  const [routes, setRoutes] = useState<Route[]>()
-
-  useEffect(() => {
-    const refreshList = () => {
-      axios
-        .get(`/api/lessons/routes`)
-        .then((res) => res.data)
-        .then((currentRoutes) => setRoutes(currentRoutes))
-        .catch((err) => console.log(err));
-    }
-
-    refreshList()
-  }, [])
-
   return (
     <ChakraProvider theme={theme}>
       <Box padding={'1rem'}>
         {/** Add App header */}
-        {routes ? <LsiRouter routes={routes} /> : <>This should be an error page</>}
+        <LsiRouter />
       </Box>
       {/** TODO: Add footer with previous/next section buttons */}
     </ChakraProvider>
