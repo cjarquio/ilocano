@@ -28,32 +28,13 @@ class SectionSerializer(serializers.ModelSerializer):
         model = Section
         fields = ("section_type", "description")
 
-
-class RouteExtendedSerializer(serializers.ModelSerializer):
-    """Serializer model for each Section"""
-    class Meta:
-        model = Section
-        fields = ["section_type"]
-
-class RoutesSerializer(serializers.ModelSerializer):
-    """Serializer model for Lessons"""
-    class Meta:
-        model = Lesson
-        fields = ("title", "section")
-    
-    title = serializers.SerializerMethodField()
-    section = serializers.StringRelatedField(many=True)
-
-    def get_title(self, obj):
-        return obj.title.replace(" ", "").lower()
-
 class LessonSerializer(serializers.ModelSerializer):
     """Serializer model for Lessons"""
     class Meta:
         model = Lesson
-        fields = ("id", "title", "section", "words_for_lesson", "dialog")
+        fields = ("id", "title", "sections", "words_for_lesson", "dialog")
     
     words_for_lesson = DialogWordTableSerializer(many=True, read_only=True)
     # Section and dialog shouldn"t be arrays when serialized
-    section = SectionSerializer(many=True, read_only=True)
+    sections = SectionSerializer(many=True, read_only=True)
     dialog = serializers.SlugRelatedField(read_only=True, slug_field="dialog")

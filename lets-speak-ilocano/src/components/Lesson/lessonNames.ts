@@ -17,7 +17,7 @@ export enum lessonNames {
 }
 
 export enum sectionTypes {
-  dialog = 1,
+  dialog,
   translatingthedialog,
   learningthedialog,
   roleplaying,

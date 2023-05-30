@@ -2,7 +2,13 @@ import * as React from 'react'
 import { Routes, Route, Link, useParams } from 'react-router-dom'
 import { Box, Text } from '@chakra-ui/react'
 import TableOfContents from '../TableOfContents'
-import { Lesson } from '../Lesson/Lesson'
+import { Lesson, LessonDataProps } from '../Lesson/Lesson'
+import { lessonNames, sectionTypes } from '../Lesson/lessonNames'
+import { TranslatingDialogSection } from '../Sections'
+
+interface LsiRouterProps {
+  lessonData: LessonDataProps
+}
 
 const HomePage = () => {
   return (
@@ -23,22 +29,29 @@ const NoMatch = () => {
   )
 }
 
-const ReturnLesson: React.FC = () => {
-  const { lesson, section } = useParams()
+const ReturnLesson: React.FC<LsiRouterProps> = (props: LsiRouterProps) => {
+  const {lessonData} = props
+  const { currentSection } = useParams()
+  
 
-  if (lesson && section) {
-    return <Lesson currentLesson={lesson} currentSection={section} />
-  } else {
-    return <NoMatch />
+  switch (currentSection) {
+    case sectionTypes[sectionTypes.dialog]:
+      return <Lesson currentSection={currentSection} lessonData={lessonData} />
+    case sectionTypes[sectionTypes.translatingthedialog]:
+      return <Lesson currentSection={currentSection} lessonData={lessonData}><TranslatingDialogSection dialog={lessonData.dialog} /></Lesson>
+    default:
+      return <NoMatch />
   }
   
 }
 
-export const LsiRouter: React.FC = () => {
+export const LsiRouter: React.FC<LsiRouterProps> = (props: LsiRouterProps) => {
+  const {lessonData} = props
+  
   return (
     <Routes>
       <Route path='/' element={<HomePage />} />
-      <Route path='/:lesson/:section' element={<ReturnLesson />} />
+      <Route path='/:currentLesson/:currentSection' element={<ReturnLesson lessonData={lessonData} />} />
       <Route path='/:lesson' element={<TableOfContents />} />
       <Route path='*' element={<NoMatch />} />
     </Routes>
