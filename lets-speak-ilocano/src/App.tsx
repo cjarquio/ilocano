@@ -1,19 +1,15 @@
-import {
-  ChakraProvider,
-  Box,
-  theme,
-} from '@chakra-ui/react'
-import React, {useState, useEffect} from 'react'
+import { ChakraProvider, Box, theme } from "@chakra-ui/react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import {LsiRouter} from './components/LsiRouter/LsiRouter'
+import { LsiRouter } from "./components/LsiRouter/LsiRouter";
 
 interface Route {
-  title: string,
-  section: string[] 
+  title: string;
+  section: string[];
 }
 
 export const App = () => {
-  const [routes, setRoutes] = useState<Route[]>()
+  const [routes, setRoutes] = useState<Route[]>();
 
   useEffect(() => {
     const refreshList = () => {
@@ -22,18 +18,18 @@ export const App = () => {
         .then((res) => res.data)
         .then((currentRoutes) => setRoutes(currentRoutes))
         .catch((err) => console.log(err));
-    }
+    };
 
-    refreshList()
-  }, [])
+    refreshList();
+  }, []);
 
   return (
     <ChakraProvider theme={theme}>
-      <Box padding={'1rem'}>
+      <Box padding={"1rem"}>
         {/** Add App header */}
-        {routes ? <LsiRouter routes={routes} /> : <>This should be an error page</>}
+        {routes ? <LsiRouter routes={routes} /> : <></>}
       </Box>
       {/** TODO: Add footer with previous/next section buttons */}
     </ChakraProvider>
-  )
-}
+  );
+};
