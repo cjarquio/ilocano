@@ -1,9 +1,13 @@
-import * as React from "react";
-import { Routes, Route, Link } from "react-router-dom";
-import { Box, Text } from "@chakra-ui/react";
-import { Lesson } from "../Sections/Lesson/Lesson";
+import * as React from 'react'
+import { Routes, Route, Link, useParams } from 'react-router-dom'
+import { Box, Text } from '@chakra-ui/react'
+import TableOfContents from '../TableOfContents'
+import { Lesson, LessonDataProps } from '../Lesson/Lesson'
+import { lessonNames, sectionTypes } from '../Lesson/lessonNames'
+import { TranslatingDialogSection } from '../Sections'
+
 interface LsiRouterProps {
-  routes: { title: string; section: string[] }[];
+  lessonData: LessonDataProps
 }
 
 const HomePage = () => {
@@ -19,35 +23,37 @@ const NoMatch = () => {
     <div>
       <h2>Nothing to see here!</h2>
       <p>
-        <Link to="/">Go to the home page</Link>
+        <Link to='/'>Go to the home page</Link>
       </p>
     </div>
   );
 };
 
+const ReturnLesson: React.FC<LsiRouterProps> = (props: LsiRouterProps) => {
+  const {lessonData} = props
+  const { currentSection } = useParams()
+  
+
+  switch (currentSection) {
+    case sectionTypes[sectionTypes.dialog]:
+      return <Lesson currentSection={currentSection} lessonData={lessonData} />
+    case sectionTypes[sectionTypes.translatingthedialog]:
+      return <Lesson currentSection={currentSection} lessonData={lessonData}><TranslatingDialogSection dialog={lessonData.dialog} /></Lesson>
+    default:
+      return <NoMatch />
+  }
+  
+}
+
 export const LsiRouter: React.FC<LsiRouterProps> = (props: LsiRouterProps) => {
-  const { routes } = props;
-
-  const sectionRoutes = (title: string) => {
-    const lesson = routes.find((route) => route.title === title);
-    return lesson?.section.map((section) => {
-      const path = `/${title}/${section}`;
-      return (
-        <Route
-          path={path}
-          element={<Lesson currentLesson={title} currentSection={section} />}
-          key={path}
-        />
-      );
-    });
-  };
-
+  const {lessonData} = props
+  
   return (
     <Routes>
-      <Route path="/" element={<HomePage />} />
-      {sectionRoutes("gettingtoknowyou")}
-      <Route path="/gettingtoknowyou" element={<>Getting to know you</>} />
-      <Route path="*" element={<NoMatch />} />
+      <Route path='/' element={<HomePage />} />
+      <Route path='/:currentLesson/:currentSection' element={<ReturnLesson lessonData={lessonData} />} />
+      <Route path='/:lesson' element={<TableOfContents />} />
+      <Route path='*' element={<NoMatch />} />
     </Routes>
   );
 };

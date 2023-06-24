@@ -54,7 +54,7 @@ class Section(models.Model):
         (LISTENING, "Listening Practice")
     ]
     lesson = models.ForeignKey(
-        Lesson, related_name='section', on_delete=models.CASCADE)
+        Lesson, related_name='sections', on_delete=models.CASCADE)
     section_type = models.CharField(
         max_length=30,
         choices=SECTION_CHOICES,

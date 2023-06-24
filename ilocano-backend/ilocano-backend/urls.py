@@ -22,11 +22,12 @@ router = routers.DefaultRouter()
 router.register(r'lessons', views.LessonView, 'lessons')
 router.register(r'words', views.WordBankView, 'wordbank')
 router.register(r'dialog', views.DialogView, 'dialog')
-router.register(r'section', views.SectionView, 'section')
+router.register(r'sections', views.SectionView, 'sections')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/lessons/?current_lesson=<int:current_lesson>&current_section=<int:current_section>', views.LessonView.as_view({'get': 'list'})),
-    path('api/lessons/routes', views.RouteView.as_view({'get': 'list'})),
+    path('api/lessons/?current_lesson=<int:current_lesson>',
+         views.LessonView.as_view({'get': 'retrieve'})),
+    path('api/lessons/', views.LessonView.as_view({'get': 'list'})),
     path('api/', include(router.urls))
 ]
