@@ -16,18 +16,24 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
-from ilocanodb import views
+from ilocanodb import views as ilocano_views
+from userdb import views as user_views
+
 
 router = routers.DefaultRouter()
-router.register(r'lessons', views.LessonView, 'lessons')
-router.register(r'words', views.WordBankView, 'wordbank')
-router.register(r'dialog', views.DialogView, 'dialog')
-router.register(r'sections', views.SectionView, 'sections')
+router.register(r'lessons', ilocano_views.LessonView, 'lessons')
+router.register(r'words', ilocano_views.WordBankView, 'wordbank')
+router.register(r'dialog', ilocano_views.DialogView, 'dialog')
+router.register(r'sections', ilocano_views.SectionView, 'sections')
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
     path('api/lessons/?current_lesson=<int:current_lesson>',
-         views.LessonView.as_view({'get': 'retrieve'})),
-    path('api/lessons/', views.LessonView.as_view({'get': 'list'})),
-    path('api/', include(router.urls))
+         ilocano_views.LessonView.as_view({'get': 'retrieve'})),
+    path('api/lessons/', ilocano_views.LessonView.as_view({'get': 'list'})),
+    path('api/', include(router.urls)),
+    path('register/', user_views.UserRegister.as_view(), name='register'),
+    path('login/', user_views.UserLogin.as_view(), name='login'),
+    path('logout/', user_views.UserLogout.as_view(), name='logout'),
+    path('user/', user_views.UserView.as_view(), name='user'),
+    path('admin/', admin.site.urls),
 ]

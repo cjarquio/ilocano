@@ -18,6 +18,7 @@ class LessonView(viewsets.ModelViewSet):
             return queryset.filter(pk=current_lesson)
         return queryset
 
+
 class DialogView(viewsets.ModelViewSet):
     """Query for all objects in Lesson"""
     serializer_class = DialogSerializer
@@ -26,6 +27,7 @@ class DialogView(viewsets.ModelViewSet):
         queryset = Dialog.objects.all()
         return queryset
 
+
 class SectionView(viewsets.ModelViewSet):
     """Query for all objects in Lesson"""
     serializer_class = SectionSerializer
@@ -33,6 +35,7 @@ class SectionView(viewsets.ModelViewSet):
     def get_queryset(self):
         queryset = Section.objects.all()
         return queryset
+
 
 class WordBankView(viewsets.ModelViewSet):
     """Query for all objects in Wordbank"""
