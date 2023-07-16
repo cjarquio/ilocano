@@ -4,7 +4,7 @@ from datetime import date
 
 
 class AppUserManager(BaseUserManager):
-    def create_user(self, email, username, date_of_birth, password=None):
+    def create_user(self, first_name, last_name, email, username, date_of_birth, password=None):
         """
         Creates and saves a User with the given email, date of
         birth and password.
@@ -17,6 +17,8 @@ class AppUserManager(BaseUserManager):
         user = self.model(
             email=self.normalize_email(email),
             username=username,
+            first_name=first_name,
+            last_name=last_name,
             date_of_birth=date_of_birth,
         )
 
@@ -24,12 +26,14 @@ class AppUserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, email, username, date_of_birth, password=None):
+    def create_superuser(self, first_name, last_name, email, username, date_of_birth, password=None):
         """
         Creates and saves a superuser with the given email, date of
         birth and password.
         """
         user = self.create_user(
+            first_name,
+            last_name,
             email,
             username,
             password=password,
@@ -42,6 +46,8 @@ class AppUserManager(BaseUserManager):
 
 class AppUser(AbstractBaseUser):
     user_id = models.AutoField(primary_key=True)
+    first_name = models.CharField(max_length=50)
+    last_name = models.CharField(max_length=50)
     email = models.EmailField(
         verbose_name="email address",
         max_length=255,
@@ -55,7 +61,7 @@ class AppUser(AbstractBaseUser):
     objects = AppUserManager()
 
     USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = ["username", "date_of_birth"]
+    REQUIRED_FIELDS = ["username", "first_name", "last_name", "date_of_birth"]
 
     def __str__(self):
         return self.email
