@@ -7,43 +7,60 @@ import {
   FormErrorMessage,
   Button,
 } from "@chakra-ui/react";
+import axios from 'axios';
 import { validateName, validateEmail, validatePassword, validatePasswordConfirmation } from "../validationFunctions";
 
+interface UserProps {
+  firstName: string
+  lastName: string
+  username: string
+  email: string
+  password: string
+}
+
+axios.defaults.xsrfCookieName = 'csrftoken';
+axios.defaults.xsrfHeaderName = 'X-CSRFToken';
+axios.defaults.withCredentials = true;
+
+const client = axios.create({
+  baseURL: "http://127.0.0.1:8000/"
+});
+
 export default function Register() {
+  const submitRegistration = (values: UserProps) => {
+    client.post(
+      "/api/register/",
+      {
+        first_name: values.firstName,
+        last_name: values.lastName,
+        username: values.username,
+        email: values.email,
+        password: values.password,
+      }
+    ).catch(e=>console.error(e));
+  }
+  
   return (
     <Formik
-      initialValues={{ firstName: "", lastName: "", email: "", username: "", dateOfBirth:  Date.now(), password:"" }}
+      initialValues={{ firstName: "", lastName: "", email: "", username: "", password:"" }}
       onSubmit={(values, actions) => {
         setTimeout(() => {
-          alert(JSON.stringify(values, null, 2));
+          submitRegistration(values)
           actions.setSubmitting(false);
         }, 1000);
       }}
     >
       {(props) => (
         <Form>
-          <Field name="firstName" validate={validateName}>
+          <Field name="username" validate={validateName}>
             {({ field, form }: FieldProps) => (
               <FormControl
-                isInvalid={!!(form.errors.firstName && form.touched.firstName)}
+                isInvalid={!!(form.errors.username && form.touched.username)}
               >
-                <FormLabel>First Name</FormLabel>
-                <Input {...field} placeholder="First Name" />
+                <FormLabel>Username</FormLabel>
+                <Input {...field} placeholder="Username" />
                 <FormErrorMessage>
-                  <>{form.errors.firstName}</>
-                </FormErrorMessage>
-              </FormControl>
-            )}
-          </Field>
-          <Field name="lastName" validate={validateName}>
-            {({ field, form }: FieldProps) => (
-              <FormControl
-                isInvalid={!!(form.errors.lastName && form.touched.lastName)}
-              >
-                <FormLabel>Last name</FormLabel>
-                <Input {...field} placeholder="Last Name" />
-                <FormErrorMessage>
-                  <>{form.errors.lastName}</>
+                  <>{form.errors.username}</>
                 </FormErrorMessage>
               </FormControl>
             )}
@@ -83,6 +100,32 @@ export default function Register() {
                 <Input {...field} type="password" placeholder="Confirm Password" />
                 <FormErrorMessage>
                   <>{form.errors.passwordConfirmation}</>
+                </FormErrorMessage>
+              </FormControl>
+            )}
+          </Field>
+          <Field name="firstName" validate={validateName}>
+            {({ field, form }: FieldProps) => (
+              <FormControl
+                isInvalid={!!(form.errors.firstName && form.touched.firstName)}
+              >
+                <FormLabel>First Name</FormLabel>
+                <Input {...field} placeholder="First Name" />
+                <FormErrorMessage>
+                  <>{form.errors.firstName}</>
+                </FormErrorMessage>
+              </FormControl>
+            )}
+          </Field>
+          <Field name="lastName" validate={validateName}>
+            {({ field, form }: FieldProps) => (
+              <FormControl
+                isInvalid={!!(form.errors.lastName && form.touched.lastName)}
+              >
+                <FormLabel>Last name</FormLabel>
+                <Input {...field} placeholder="Last Name" />
+                <FormErrorMessage>
+                  <>{form.errors.lastName}</>
                 </FormErrorMessage>
               </FormControl>
             )}

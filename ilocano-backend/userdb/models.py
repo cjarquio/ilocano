@@ -1,10 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
-from datetime import date
 
 
 class AppUserManager(BaseUserManager):
-    def create_user(self, first_name, last_name, email, username, password):
+    def create_user(self, first_name, last_name, email, username, password=None):
         """
         Creates and saves a User with the given email, date of
         birth and password.
@@ -13,12 +12,18 @@ class AppUserManager(BaseUserManager):
             raise ValueError("Users must have an email address")
         if not password:
             raise ValueError("A password is required.")
+        if not first_name:
+            raise ValueError("A first name is required.")
+        if not last_name:
+            raise ValueError("A last name is required.")
+        if not username:
+            raise ValueError("A username is required.")
 
         user = self.model(
-            email=self.normalize_email(email),
-            username=username,
             first_name=first_name,
             last_name=last_name,
+            username=username,
+            email=self.normalize_email(email),
         )
 
         user.set_password(password)
@@ -30,11 +35,11 @@ class AppUserManager(BaseUserManager):
         Creates and saves a superuser with the given full name, email, and password.
         """
         user = self.create_user(
-            first_name,
-            last_name,
-            email,
-            username,
-            password,
+            first_name=first_name,
+            last_name=last_name,
+            email=self.normalize_email(email),
+            username=username,
+            password=password,
         )
         user.is_admin = True
         user.save()

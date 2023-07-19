@@ -11,6 +11,7 @@ class UserRegister(APIView):
     permission_classes = (permissions.AllowAny,)
 
     def post(self, request):
+        print(request)
         clean_data = custom_validation(request.data)
         serializer = UserRegisterSerializer(data=clean_data)
         if serializer.is_valid(raise_exception=True):

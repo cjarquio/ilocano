@@ -12,3 +12,7 @@ export const validatePassword = (value: string) => {
 }
 
 export const validatePasswordConfirmation = (value: string, password: string) => (value !== password) && "Passwords do not match."
+
+// TODO: Check if email already exists in db
+
+// TODO: Check if user name is already taken
