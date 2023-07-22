@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, {useState} from "react";
 import { Formik, Form, Field, FieldProps } from "formik";
 import {
   FormControl,
@@ -6,6 +6,7 @@ import {
   Input,
   FormErrorMessage,
   Button,
+  Box,
 } from "@chakra-ui/react";
 import axios from 'axios';
 import { validateName, validateEmail, validatePassword, validatePasswordConfirmation } from "../validationFunctions";
@@ -27,6 +28,7 @@ const client = axios.create({
 });
 
 export default function Register() {
+  const [loggedIn, setLoggedIn] = useState(false)
   const submitRegistration = (values: UserProps) => {
     client.post(
       "/api/register/",
@@ -37,11 +39,26 @@ export default function Register() {
         email: values.email,
         password: values.password,
       }
-    ).catch(e=>console.error(e));
+    )
+    .then(() => {
+      client.post(
+        "/api/login/",
+        {
+          username: values.username,
+          password: values.password
+        }
+      ).then(() => {
+        setLoggedIn(true);
+      })
+      .catch((e)=>console.log(e))
+    })
+    .catch(e=>console.error(e));
   }
   
   return (
-    <Formik
+    <Box>
+      {
+        !loggedIn ? <Formik
       initialValues={{ firstName: "", lastName: "", email: "", username: "", password:"" }}
       onSubmit={(values, actions) => {
         setTimeout(() => {
@@ -140,6 +157,8 @@ export default function Register() {
           </Button>
         </Form>
       )}
-    </Formik>
+    </Formik> : <>Logged in</>
+      }
+    </Box>
   );
 }
