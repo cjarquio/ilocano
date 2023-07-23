@@ -36,10 +36,11 @@ class UserLogin(APIView):
 
 
 class UserLogout(APIView):
-    def post(self, request):
-        logout(request)
-        return Response(status=status.HTTP_200_OK)
-
+  permission_classes = (permissions.AllowAny,)
+  authentication_classes = ()
+  def post(self, request):
+    logout(request)
+    return Response(status=status.HTTP_200_OK)
 
 class UserView(APIView):
     permission_classes = (permissions.IsAuthenticated,)

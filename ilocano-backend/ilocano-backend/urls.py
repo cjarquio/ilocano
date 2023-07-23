@@ -31,9 +31,9 @@ urlpatterns = [
          ilocano_views.LessonView.as_view({'get': 'retrieve'})),
     path('api/lessons/', ilocano_views.LessonView.as_view({'get': 'list'})),
      path('api/register/', user_views.UserRegister.as_view(), name='register'),
+    path('api/user/', user_views.UserView.as_view(), name='user'),
     path('api/login/', user_views.UserLogin.as_view(), name='login'),
     path('api/logout/', user_views.UserLogout.as_view(), name='logout'),
     path('api/', include(router.urls)),
-    path('user/', user_views.UserView.as_view(), name='user'),
     path('admin/', admin.site.urls),
 ]
