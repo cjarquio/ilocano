@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { Formik, Form, Field, FieldProps } from "formik";
 import {
   FormControl,
@@ -8,60 +8,47 @@ import {
   Button,
   Box,
 } from "@chakra-ui/react";
-import axios from 'axios';
+import axios from "axios";
 import { validateName, validatePassword } from "../validationFunctions";
 
 interface UserProps {
-  username: string
-  password: string
+  username: string;
+  password: string;
 }
 
-axios.defaults.xsrfCookieName = 'csrftoken';
-axios.defaults.xsrfHeaderName = 'X-CSRFToken';
+axios.defaults.xsrfCookieName = "csrftoken";
+axios.defaults.xsrfHeaderName = "X-CSRFToken";
 axios.defaults.withCredentials = true;
 
 const client = axios.create({
-  baseURL: "http://127.0.0.1:8000/"
+  baseURL: "http://127.0.0.1:8000/",
 });
 
 export default function Login() {
-  const [loggedIn, setLoggedIn] = useState(false)
+  const [loggedIn, setLoggedIn] = useState(false);
   const submitLogout = () => {
-    client.post(
-      "/api/logout/",
-      {withCredentials: true}
-    ).then(function(res) {
-      setLoggedIn(false);
-    })
-    .catch((e)=>console.error(e));
-  }
+    client
+      .post("/api/logout/", { withCredentials: true })
+      .then(function (res) {
+        setLoggedIn(false);
+      })
+      .catch((e) => console.error(e));
+  };
   const submitLogin = (values: UserProps) => {
-    client.post(
-        "/api/login/",
-        {
-          username: values.username,
-          password: values.password
-        }
-      ).then(() => {
-        client.get(
-        "/api/user/"
-      ).then((res) => {
-        console.log(res)
+    client
+      .post("/api/login/", {
+        username: values.username,
+        password: values.password,
       })
-      .catch((e)=>console.log(e))
-        setLoggedIn(true);
-      })
-      .catch((e)=>console.log(e))
-  }
-  
+      .catch((e) => console.log(e));
+  };
+
   return (
-    <Box>
-      {
-        !loggedIn ? <Formik
-      initialValues={{ username: "", password:"" }}
+    <Formik
+      initialValues={{ username: "", password: "" }}
       onSubmit={(values, actions) => {
         setTimeout(() => {
-          submitLogin(values)
+          submitLogin(values);
           actions.setSubmitting(false);
         }, 1000);
       }}
@@ -82,7 +69,7 @@ export default function Login() {
             )}
           </Field>
           <Field name="password" validate={validatePassword}>
-            {({ field, form }: FieldProps) => ( 
+            {({ field, form }: FieldProps) => (
               <FormControl
                 isInvalid={!!(form.errors.password && form.touched.password)}
               >
@@ -104,15 +91,6 @@ export default function Login() {
           </Button>
         </Form>
       )}
-    </Formik> : <><Button
-            mt={4}
-            colorScheme="teal"
-            onClick={submitLogout}
-            type="submit"
-          >
-            Submit
-          </Button></>
-      }
-    </Box>
+    </Formik>
   );
 }

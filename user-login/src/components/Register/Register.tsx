@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { Formik, Form, Field, FieldProps } from "formik";
 import {
   FormControl,
@@ -6,63 +6,64 @@ import {
   Input,
   FormErrorMessage,
   Button,
-  Box,
 } from "@chakra-ui/react";
-import axios from 'axios';
-import { validateName, validateEmail, validatePassword, validatePasswordConfirmation } from "../validationFunctions";
+import axios from "axios";
+import {
+  validateName,
+  validateEmail,
+  validatePassword,
+  validatePasswordConfirmation,
+} from "../validationFunctions";
 
 interface UserProps {
-  firstName: string
-  lastName: string
-  username: string
-  email: string
-  password: string
+  firstName: string;
+  lastName: string;
+  username: string;
+  email: string;
+  password: string;
 }
 
-axios.defaults.xsrfCookieName = 'csrftoken';
-axios.defaults.xsrfHeaderName = 'X-CSRFToken';
+axios.defaults.xsrfCookieName = "csrftoken";
+axios.defaults.xsrfHeaderName = "X-CSRFToken";
 axios.defaults.withCredentials = true;
 
 const client = axios.create({
-  baseURL: "http://127.0.0.1:8000/"
+  baseURL: "http://127.0.0.1:8000/",
 });
 
 export default function Register() {
-  const [loggedIn, setLoggedIn] = useState(false)
   const submitRegistration = (values: UserProps) => {
-    client.post(
-      "/api/register/",
-      {
+    client
+      .post("/api/register/", {
         first_name: values.firstName,
         last_name: values.lastName,
         username: values.username,
         email: values.email,
         password: values.password,
-      }
-    )
-    .then(() => {
-      client.post(
-        "/api/login/",
-        {
-          username: values.username,
-          password: values.password
-        }
-      ).then(() => {
-        setLoggedIn(true);
       })
-      .catch((e)=>console.log(e))
-    })
-    .catch(e=>console.error(e));
-  }
-  
+      .then(() => {
+        client
+          .post("/api/login/", {
+            username: values.username,
+            password: values.password,
+          })
+          .catch((e) => console.log(e));
+      })
+      .catch((e) => console.error(e));
+  };
+
   return (
-    <Box>
-      {
-        !loggedIn ? <Formik
-      initialValues={{ firstName: "", lastName: "", email: "", username: "", password:"" }}
+    <Formik
+      initialValues={{
+        firstName: "",
+        lastName: "",
+        email: "",
+        username: "",
+        password: "",
+      }}
       onSubmit={(values, actions) => {
         setTimeout(() => {
-          submitRegistration(values)
+          submitRegistration(values);
           actions.setSubmitting(false);
         }, 1000);
       }}
@@ -96,7 +97,7 @@ export default function Register() {
             )}
           </Field>
           <Field name="password" validate={validatePassword}>
-            {({ field, form }: FieldProps) => ( 
+            {({ field, form }: FieldProps) => (
               <FormControl
                 isInvalid={!!(form.errors.password && form.touched.password)}
               >
@@ -108,13 +109,27 @@ export default function Register() {
               </FormControl>
             )}
           </Field>
-          <Field name="passwordConfirmation" validate={(value: string) => validatePasswordConfirmation(value, props.values.password)}>
+          <Field
+            name="passwordConfirmation"
+            validate={(value: string) =>
+              validatePasswordConfirmation(value, props.values.password)
+            }
+          >
             {({ field, form }: FieldProps) => (
               <FormControl
-                isInvalid={!!(form.errors.passwordConfirmation && form.touched.passwordConfirmation)}
+                isInvalid={
+                  !!(
+                    form.errors.passwordConfirmation &&
+                    form.touched.passwordConfirmation
+                  )
+                }
               >
                 <FormLabel>Confirm Password</FormLabel>
-                <Input {...field} type="password" placeholder="Confirm Password" />
+                <Input
+                  {...field}
+                  type="password"
+                  placeholder="Confirm Password"
+                />
                 <FormErrorMessage>
                   <>{form.errors.passwordConfirmation}</>
                 </FormErrorMessage>
@@ -157,8 +172,6 @@ export default function Register() {
           </Button>
         </Form>
       )}
-    </Formik> : <>Logged in</>
-      }
-    </Box>
+    </Formik>
   );
 }
