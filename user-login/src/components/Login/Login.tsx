@@ -11,6 +11,10 @@ import {
 import axios from "axios";
 import { validateName, validatePassword } from "../validationFunctions";
 
+interface LoginProps {
+  loginCallback: () => void
+}
+
 interface UserProps {
   username: string;
   password: string;
@@ -24,13 +28,14 @@ const client = axios.create({
   baseURL: "http://127.0.0.1:8000/",
 });
 
-export default function Login() {
-  const [loggedIn, setLoggedIn] = useState(false);
+export const Login: React.FC<LoginProps> = (props: LoginProps) => {
+  const {loginCallback} = props
+
   const submitLogout = () => {
     client
       .post("/api/logout/", { withCredentials: true })
       .then(function (res) {
-        setLoggedIn(false);
+        loginCallback()
       })
       .catch((e) => console.error(e));
   };
@@ -40,6 +45,7 @@ export default function Login() {
         username: values.username,
         password: values.password,
       })
+      .then(() => loginCallback())
       .catch((e) => console.log(e));
   };
 

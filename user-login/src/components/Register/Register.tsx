@@ -15,6 +15,10 @@ import {
   validatePasswordConfirmation,
 } from "../validationFunctions";
 
+interface RegisterProps {
+  loginCallback: () => void;
+}
+
 interface UserProps {
   firstName: string;
   lastName: string;
@@ -31,7 +35,9 @@ const client = axios.create({
   baseURL: "http://127.0.0.1:8000/",
 });
 
-export default function Register() {
+export const Register: React.FC<RegisterProps> = (props: RegisterProps) => {
+  const { loginCallback } = props;
+
   const submitRegistration = (values: UserProps) => {
     client
       .post("/api/register/", {
@@ -47,6 +53,7 @@ export default function Register() {
             username: values.username,
             password: values.password,
           })
+          .then(()=> loginCallback())
           .catch((e) => console.log(e));
       })
       .catch((e) => console.error(e));
@@ -174,4 +181,4 @@ export default function Register() {
       )}
     </Formik>
   );
-}
+};
