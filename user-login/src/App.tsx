@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { ChakraProvider } from "@chakra-ui/react";
 import AppBar from "./components/AppBar/AppBar";
-import {Register} from "./components/Register/Register";
+import { Register } from "./components/Register/Register";
 import { Login } from "./components/Login/Login";
 import axios from "axios";
+import { Box } from "@mui/system";
 
 axios.defaults.xsrfCookieName = "csrftoken";
 axios.defaults.xsrfHeaderName = "X-CSRFToken";
@@ -32,23 +32,23 @@ function App() {
   const handleLogin = () => {
     setLoggedIn(!loggedIn);
   };
-  
+
   const logCallback = () => {
-    setLoggingIn(!loggingIn)
-  }
+    setLoggingIn(!loggingIn);
+  };
 
   const submitLogout = () => {
     client
       .post("/api/logout/", { withCredentials: true })
       .then(function (res) {
-        setUser("")
+        setUser("");
         handleLogin();
       })
       .catch((e) => console.error(e));
   };
 
   return (
-    <ChakraProvider>
+    <Box>
       <AppBar
         fullName={user}
         loggedIn={loggedIn}
@@ -56,8 +56,16 @@ function App() {
         logCallback={logCallback}
         loggingIn={loggingIn}
       />
-      {loggedIn ? <>Hello</> : loggingIn ? <Login  loginCallback={handleLogin} /> : <Register loginCallback={handleLogin} />}
-    </ChakraProvider>
+      <Box padding={"0.5rem"}>
+        {loggedIn ? (
+          <>Hello</>
+        ) : loggingIn ? (
+          <Login loginCallback={handleLogin} />
+        ) : (
+          <Register loginCallback={handleLogin} />
+        )}
+      </Box>
+    </Box>
   );
 }
 

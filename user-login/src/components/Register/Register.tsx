@@ -1,12 +1,5 @@
 import React, { useState } from "react";
-import { Formik, Form, Field, FieldProps } from "formik";
-import {
-  FormControl,
-  FormLabel,
-  Input,
-  FormErrorMessage,
-  Button,
-} from "@chakra-ui/react";
+import { useFormik } from "formik";
 import axios from "axios";
 import {
   validateName,
@@ -14,6 +7,7 @@ import {
   validatePassword,
   validatePasswordConfirmation,
 } from "../validationFunctions";
+import { Box, TextField, Button } from "@mui/material";
 
 interface RegisterProps {
   loginCallback: () => void;
@@ -38,6 +32,20 @@ const client = axios.create({
 export const Register: React.FC<RegisterProps> = (props: RegisterProps) => {
   const { loginCallback } = props;
 
+  const formik = useFormik({
+    initialValues: {
+      firstName: "",
+      lastName: "",
+      email: "",
+      username: "",
+      password: "",
+      passwordConfirmation: "",
+    },
+    onSubmit: (values) => {
+      alert(JSON.stringify(values, null, 2));
+    },
+  });
+
   const submitRegistration = (values: UserProps) => {
     client
       .post("/api/register/", {
@@ -53,132 +61,107 @@ export const Register: React.FC<RegisterProps> = (props: RegisterProps) => {
             username: values.username,
             password: values.password,
           })
-          .then(()=> loginCallback())
+          .then(() => loginCallback())
           .catch((e) => console.log(e));
       })
       .catch((e) => console.error(e));
   };
 
   return (
-    <Formik
-      initialValues={{
-        firstName: "",
-        lastName: "",
-        email: "",
-        username: "",
-        password: "",
-      }}
-      onSubmit={(values, actions) => {
-        setTimeout(() => {
-          submitRegistration(values);
-          actions.setSubmitting(false);
-        }, 1000);
-      }}
-    >
-      {(props) => (
-        <Form>
-          <Field name="username" validate={validateName}>
-            {({ field, form }: FieldProps) => (
-              <FormControl
-                isInvalid={!!(form.errors.username && form.touched.username)}
-              >
-                <FormLabel>Username</FormLabel>
-                <Input {...field} placeholder="Username" />
-                <FormErrorMessage>
-                  <>{form.errors.username}</>
-                </FormErrorMessage>
-              </FormControl>
-            )}
-          </Field>
-          <Field name="email" validate={validateEmail}>
-            {({ field, form }: FieldProps) => (
-              <FormControl
-                isInvalid={!!(form.errors.email && form.touched.email)}
-              >
-                <FormLabel>Email</FormLabel>
-                <Input {...field} placeholder="Email" />
-                <FormErrorMessage>
-                  <>{form.errors.email}</>
-                </FormErrorMessage>
-              </FormControl>
-            )}
-          </Field>
-          <Field name="password" validate={validatePassword}>
-            {({ field, form }: FieldProps) => (
-              <FormControl
-                isInvalid={!!(form.errors.password && form.touched.password)}
-              >
-                <FormLabel>Password</FormLabel>
-                <Input {...field} type="password" placeholder="New password" />
-                <FormErrorMessage>
-                  <>{form.errors.password}</>
-                </FormErrorMessage>
-              </FormControl>
-            )}
-          </Field>
-          <Field
-            name="passwordConfirmation"
-            validate={(value: string) =>
-              validatePasswordConfirmation(value, props.values.password)
-            }
-          >
-            {({ field, form }: FieldProps) => (
-              <FormControl
-                isInvalid={
-                  !!(
-                    form.errors.passwordConfirmation &&
-                    form.touched.passwordConfirmation
-                  )
-                }
-              >
-                <FormLabel>Confirm Password</FormLabel>
-                <Input
-                  {...field}
-                  type="password"
-                  placeholder="Confirm Password"
-                />
-                <FormErrorMessage>
-                  <>{form.errors.passwordConfirmation}</>
-                </FormErrorMessage>
-              </FormControl>
-            )}
-          </Field>
-          <Field name="firstName" validate={validateName}>
-            {({ field, form }: FieldProps) => (
-              <FormControl
-                isInvalid={!!(form.errors.firstName && form.touched.firstName)}
-              >
-                <FormLabel>First Name</FormLabel>
-                <Input {...field} placeholder="First Name" />
-                <FormErrorMessage>
-                  <>{form.errors.firstName}</>
-                </FormErrorMessage>
-              </FormControl>
-            )}
-          </Field>
-          <Field name="lastName" validate={validateName}>
-            {({ field, form }: FieldProps) => (
-              <FormControl
-                isInvalid={!!(form.errors.lastName && form.touched.lastName)}
-              >
-                <FormLabel>Last name</FormLabel>
-                <Input {...field} placeholder="Last Name" />
-                <FormErrorMessage>
-                  <>{form.errors.lastName}</>
-                </FormErrorMessage>
-              </FormControl>
-            )}
-          </Field>
-          <Button
-            mt={4}
-            colorScheme="teal"
-            isLoading={props.isSubmitting}
-            type="submit"
-          >
-            Submit
-          </Button>
-        </Form>
-      )}
-    </Formik>
+    <form onSubmit={formik.handleSubmit}>
+      <TextField
+        fullWidth
+        id="firstName"
+        name="firstName"
+        label="First Name"
+        value={formik.values.firstName}
+        onChange={formik.handleChange}
+        onBlur={formik.handleBlur}
+        error={formik.touched.firstName && !formik.values.firstName}
+        helperText={
+          formik.touched.firstName && validateName(formik.values.firstName)
+        }
+      />
+      <TextField
+        fullWidth
+        id="lastName"
+        name="lastName"
+        label="Last Name"
+        value={formik.values.lastName}
+        onChange={formik.handleChange}
+        onBlur={formik.handleBlur}
+        error={formik.touched.lastName && !formik.values.lastName}
+        helperText={
+          formik.touched.lastName && validateName(formik.values.lastName)
+        }
+      />
+      <TextField
+        fullWidth
+        id="email"
+        name="email"
+        label="email"
+        value={formik.values.email}
+        onChange={formik.handleChange}
+        onBlur={formik.handleBlur}
+        error={formik.touched.email && !formik.values.email}
+        helperText={formik.touched.email && validateEmail(formik.values.email)}
+      />
+      <TextField
+        fullWidth
+        id="username"
+        name="username"
+        label="Username"
+        value={formik.values.username}
+        onChange={formik.handleChange}
+        onBlur={formik.handleBlur}
+        error={formik.touched.username && !formik.values.username}
+        helperText={
+          formik.touched.username && validateName(formik.values.username)
+        }
+      />
+      <TextField
+        fullWidth
+        id="password"
+        name="password"
+        label="Password"
+        type="password"
+        value={formik.values.password}
+        onChange={formik.handleChange}
+        onBlur={formik.handleBlur}
+        error={formik.touched.password && !formik.values.password}
+        helperText={
+          formik.touched.password && validatePassword(formik.values.password)
+        }
+      />
+      <TextField
+        fullWidth
+        id="passwordConfirmation"
+        name="passwordConfirmation"
+        label="Confirm Password"
+        type="password"
+        value={formik.values.passwordConfirmation}
+        onChange={formik.handleChange}
+        onBlur={formik.handleBlur}
+        error={
+          formik.touched.passwordConfirmation &&
+          !formik.values.passwordConfirmation
+        }
+        helperText={
+          formik.touched.passwordConfirmation &&
+          validatePasswordConfirmation(
+            formik.values.passwordConfirmation,
+            formik.values.password
+          )
+        }
+      />
+      <Button
+        color="primary"
+        variant="contained"
+        fullWidth
+        onClick={() => submitRegistration(formik.values)}
+      >
+        Submit
+      </Button>
+    </form>
   );
 };

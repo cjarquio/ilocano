@@ -1,13 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
-import {
-  Box,
-  Heading,
-  Container,
-  HStack,
-  Text,
-  Button,
-} from "@chakra-ui/react";
+import { Box, Typography, Button } from "@mui/material";
 
 interface AppBarProps {
   /** Full name of user */
@@ -29,22 +21,18 @@ const AppBar: React.FC<AppBarProps> = (props: AppBarProps) => {
 
   return (
     <Box width={"100%"} sx={{ borderBottom: "0.1rem solid black" }}>
-      <Container padding={"1rem"}>
-        <HStack>
-          <Text>Hello, {fullName}</Text>
-          {loggedIn ? (
-            <Button onClick={logoutCallback}>Logout</Button>
+      <Typography>Hello, {fullName}</Typography>
+      {loggedIn ? (
+        <Button onClick={logoutCallback}>Logout</Button>
+      ) : (
+        <>
+          {loggingIn ? (
+            <Button onClick={logCallback}>Register</Button>
           ) : (
-            <>
-              {loggingIn ? (
-                <Button onClick={logCallback}>Register</Button>
-              ) : (
-                <Button onClick={logCallback}>Login</Button>
-              )}
-            </>
+            <Button onClick={logCallback}>Login</Button>
           )}
-        </HStack>
-      </Container>
+        </>
+      )}
     </Box>
   );
 };

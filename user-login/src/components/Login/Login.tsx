@@ -1,18 +1,11 @@
 import React, { useState } from "react";
-import { Formik, Form, Field, FieldProps } from "formik";
-import {
-  FormControl,
-  FormLabel,
-  Input,
-  FormErrorMessage,
-  Button,
-  Box,
-} from "@chakra-ui/react";
+import { useFormik } from "formik";
+import { TextField, Button, Box } from "@mui/material";
 import axios from "axios";
-import { validateName, validatePassword } from "../validationFunctions";
+import { validateName } from "../validationFunctions";
 
 interface LoginProps {
-  loginCallback: () => void
+  loginCallback: () => void;
 }
 
 interface UserProps {
@@ -29,16 +22,18 @@ const client = axios.create({
 });
 
 export const Login: React.FC<LoginProps> = (props: LoginProps) => {
-  const {loginCallback} = props
+  const { loginCallback } = props;
 
-  const submitLogout = () => {
-    client
-      .post("/api/logout/", { withCredentials: true })
-      .then(function (res) {
-        loginCallback()
-      })
-      .catch((e) => console.error(e));
-  };
+  const formik = useFormik({
+    initialValues: {
+      username: "",
+      password: "",
+    },
+    onSubmit: (values) => {
+      alert(JSON.stringify(values, null, 2));
+    },
+  });
+
   const submitLogin = (values: UserProps) => {
     client
       .post("/api/login/", {
@@ -50,53 +45,42 @@ export const Login: React.FC<LoginProps> = (props: LoginProps) => {
   };
 
   return (
-    <Formik
-      initialValues={{ username: "", password: "" }}
-      onSubmit={(values, actions) => {
-        setTimeout(() => {
-          submitLogin(values);
-          actions.setSubmitting(false);
-        }, 1000);
-      }}
-    >
-      {(props) => (
-        <Form>
-          <Field name="username" validate={validateName}>
-            {({ field, form }: FieldProps) => (
-              <FormControl
-                isInvalid={!!(form.errors.username && form.touched.username)}
-              >
-                <FormLabel>Username</FormLabel>
-                <Input {...field} placeholder="Username" />
-                <FormErrorMessage>
-                  <>{form.errors.username}</>
-                </FormErrorMessage>
-              </FormControl>
-            )}
-          </Field>
-          <Field name="password" validate={validatePassword}>
-            {({ field, form }: FieldProps) => (
-              <FormControl
-                isInvalid={!!(form.errors.password && form.touched.password)}
-              >
-                <FormLabel>Password</FormLabel>
-                <Input {...field} type="password" placeholder="New password" />
-                <FormErrorMessage>
-                  <>{form.errors.password}</>
-                </FormErrorMessage>
-              </FormControl>
-            )}
-          </Field>
-          <Button
-            mt={4}
-            colorScheme="teal"
-            isLoading={props.isSubmitting}
-            type="submit"
-          >
-            Submit
-          </Button>
-        </Form>
-      )}
-    </Formik>
+    <form onSubmit={formik.handleSubmit}>
+      <TextField
+        fullWidth
+        id="username"
+        name="username"
+        label="Username"
+        value={formik.values.username}
+        onChange={formik.handleChange}
+        onBlur={formik.handleBlur}
+        error={formik.touched.username && !formik.values.username}
+        helperText={
+          formik.touched.username && validateName(formik.values.username)
+        }
+      />
+      <TextField
+        fullWidth
+        id="password"
+        name="password"
+        label="Password"
+        type="password"
+        value={formik.values.password}
+        onChange={formik.handleChange}
+        onBlur={formik.handleBlur}
+        error={formik.touched.password && !formik.values.password}
+        helperText={
+          formik.touched.password && validateName(formik.values.password)
+        }
+      />
+      <Button
+        color="primary"
+        variant="contained"
+        fullWidth
+        onClick={() => submitLogin(formik.values)}
+      >
+        Submit
+      </Button>
+    </form>
   );
-}
+};
