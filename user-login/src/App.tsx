@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import AppBar from "./components/AppBar/AppBar";
+import AppWrapper from "./components/AppWrapper/AppWrapper";
 import { Register } from "./components/Register/Register";
 import { Login } from "./components/Login/Login";
 import axios from "axios";
-import { Box } from "@mui/system";
+import { Box } from "@mui/material";
 
 axios.defaults.xsrfCookieName = "csrftoken";
 axios.defaults.xsrfHeaderName = "X-CSRFToken";
@@ -16,7 +16,19 @@ const client = axios.create({
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [loggingIn, setLoggingIn] = useState(false);
-  const [user, setUser] = useState("");
+  const [user, setUser] = useState<string | undefined>();
+
+  // const getUserInfo = () => {
+  //    client
+  //     .get("/api/user/")
+  //     .then((res) => {
+  //       const fullName =
+  //         res.data.user.first_name + " " + res.data.user.last_name;
+  //       setUser(fullName);
+  //       setLoggedIn(true);
+  //     })
+  //     .catch((e) => setUser(""));
+  // }
 
   useEffect(() => {
     client
@@ -25,9 +37,10 @@ function App() {
         const fullName =
           res.data.user.first_name + " " + res.data.user.last_name;
         setUser(fullName);
+        setLoggedIn(true);
       })
       .catch((e) => setUser(""));
-  }, [user]);
+  });
 
   const handleLogin = () => {
     setLoggedIn(!loggedIn);
@@ -48,14 +61,13 @@ function App() {
   };
 
   return (
-    <Box>
-      <AppBar
-        fullName={user}
-        loggedIn={loggedIn}
-        logoutCallback={submitLogout}
-        logCallback={logCallback}
-        loggingIn={loggingIn}
-      />
+    <AppWrapper
+      fullName={user}
+      loggedIn={loggedIn}
+      logoutCallback={submitLogout}
+      logCallback={logCallback}
+      loggingIn={loggingIn}
+    >
       <Box padding={"0.5rem"}>
         {loggedIn ? (
           <>Hello</>
@@ -65,7 +77,7 @@ function App() {
           <Register loginCallback={handleLogin} />
         )}
       </Box>
-    </Box>
+    </AppWrapper>
   );
 }
 

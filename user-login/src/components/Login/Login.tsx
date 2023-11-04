@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { useFormik } from "formik";
-import { TextField, Button, Box } from "@mui/material";
+import { TextField, Button } from "@mui/material";
 import axios from "axios";
 import { validateName } from "../validationFunctions";
 
@@ -8,10 +8,10 @@ interface LoginProps {
   loginCallback: () => void;
 }
 
-interface UserProps {
-  username: string;
-  password: string;
-}
+// interface UserProps {
+//   username: string;
+//   password: string;
+// }
 
 axios.defaults.xsrfCookieName = "csrftoken";
 axios.defaults.xsrfHeaderName = "X-CSRFToken";
@@ -30,19 +30,15 @@ export const Login: React.FC<LoginProps> = (props: LoginProps) => {
       password: "",
     },
     onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
-    },
-  });
-
-  const submitLogin = (values: UserProps) => {
-    client
+      client
       .post("/api/login/", {
         username: values.username,
         password: values.password,
       })
       .then(() => loginCallback())
       .catch((e) => console.log(e));
-  };
+    },
+  });
 
   return (
     <form onSubmit={formik.handleSubmit}>
@@ -77,7 +73,7 @@ export const Login: React.FC<LoginProps> = (props: LoginProps) => {
         color="primary"
         variant="contained"
         fullWidth
-        onClick={() => submitLogin(formik.values)}
+        onClick={() => formik.handleSubmit()}
       >
         Submit
       </Button>

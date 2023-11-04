@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useFormik } from "formik";
 import axios from "axios";
 import {
@@ -7,19 +7,19 @@ import {
   validatePassword,
   validatePasswordConfirmation,
 } from "../validationFunctions";
-import { Box, TextField, Button } from "@mui/material";
+import { TextField, Button } from "@mui/material";
 
 interface RegisterProps {
   loginCallback: () => void;
 }
 
-interface UserProps {
-  firstName: string;
-  lastName: string;
-  username: string;
-  email: string;
-  password: string;
-}
+// interface UserProps {
+//   firstName: string;
+//   lastName: string;
+//   username: string;
+//   email: string;
+//   password: string;
+// }
 
 axios.defaults.xsrfCookieName = "csrftoken";
 axios.defaults.xsrfHeaderName = "X-CSRFToken";
@@ -42,12 +42,7 @@ export const Register: React.FC<RegisterProps> = (props: RegisterProps) => {
       passwordConfirmation: "",
     },
     onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
-    },
-  });
-
-  const submitRegistration = (values: UserProps) => {
-    client
+      client
       .post("/api/register/", {
         first_name: values.firstName,
         last_name: values.lastName,
@@ -65,7 +60,8 @@ export const Register: React.FC<RegisterProps> = (props: RegisterProps) => {
           .catch((e) => console.log(e));
       })
       .catch((e) => console.error(e));
-  };
+    },
+  });
 
   return (
     <form onSubmit={formik.handleSubmit}>
@@ -158,7 +154,7 @@ export const Register: React.FC<RegisterProps> = (props: RegisterProps) => {
         color="primary"
         variant="contained"
         fullWidth
-        onClick={() => submitRegistration(formik.values)}
+        onClick={() => formik.handleSubmit}
       >
         Submit
       </Button>
