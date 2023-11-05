@@ -18,19 +18,19 @@ services:
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - ./ilocano-backend:/code
-    # ports:
-    #   - 8000:8000
-    expose:
-      - 8000
+    ports:
+      - 8000:8000
+    # expose:
+    #   - "8000"
   user-login:
     tty: true
     container_name: user-login
     build: ./user-login
     command: yarn start
-    # ports:
-    #   - 3000:3000
-    expose:
-      - 3000
+    ports:
+      - 3000:3000
+    # expose:
+    #   - "3000"
     image: no-react
     volumes:
       - ./user-login:/code
