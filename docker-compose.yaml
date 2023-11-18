@@ -1,4 +1,4 @@
-version: '3.7'
+version: "3.7"
 
 services:
   reverse_proxy:
@@ -6,11 +6,11 @@ services:
     build: ./ilocano-backend-nginx
     volumes:
       - ./ilocano-backend-nginx/nginx.conf:/etc/nginx/nginx.conf
-    ports:  
+    ports:
       - 80:80
     depends_on:
       - ilocano-backend
-      - user-login
+      - user-authentication
   ilocano-backend:
     tty: true
     container_name: ilocano-backend
@@ -22,10 +22,10 @@ services:
       - 8000:8000
     # expose:
     #   - "8000"
-  user-login:
+  user-authentication:
     tty: true
-    container_name: user-login
-    build: ./user-login
+    container_name: user-authentication
+    build: ./user-authentication
     command: yarn start
     ports:
       - 3000:3000
@@ -33,4 +33,4 @@ services:
     #   - "3000"
     image: no-react
     volumes:
-      - ./user-login:/code
+      - ./user-authentication:/code
