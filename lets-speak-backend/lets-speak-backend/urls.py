@@ -16,8 +16,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
-from ilocanodb import views as ilocano_views
-from userdb import views as user_views
+from ilocano import views as ilocano_views
+from users import views as user_views
 
 router = routers.DefaultRouter()
 router.register(r'lessons', ilocano_views.LessonView, 'lessons')

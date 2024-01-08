@@ -1,8 +1,8 @@
 """Module providing function to render api call"""
 from rest_framework import viewsets
 from django.db.models import Prefetch
-from ilocanodb.serializers import WordBankSerializer, LessonSerializer, DialogSerializer, SectionSerializer
-from ilocanodb.models import WordBank, Lesson, Dialog, Section
+from ilocano.serializers import WordBankSerializer, LessonSerializer, DialogSerializer, SectionSerializer
+from ilocano.models import WordBank, Lesson, Dialog, Section
 
 # Create your views here.
 

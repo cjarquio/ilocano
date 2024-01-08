@@ -44,8 +44,8 @@ CORS_ALLOW_CREDENTIALS = True
 INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
-    'ilocanodb',
-    'userdb',
+    'ilocano',
+    'users',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -101,7 +101,7 @@ DATABASES = {
 }
 
 # User Model
-AUTH_USER_MODEL = 'userdb.AppUser'
+AUTH_USER_MODEL = 'users.AppUser'
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [

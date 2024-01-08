@@ -2,7 +2,7 @@
 from django.contrib import admin
 from django.contrib.postgres.fields import ArrayField
 from django.forms import Textarea
-from ilocanodb.models import Lesson, WordBank, Dialog, Section
+from ilocano.models import Lesson, WordBank, Dialog, Section
 
 # Register your models here.
 class LessonAdmin(admin.ModelAdmin):

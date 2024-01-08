@@ -1,6 +1,6 @@
 """Module providing function to create serializer model"""
 from rest_framework import serializers
-from ilocanodb.models import WordBank, Lesson, Dialog, Section
+from ilocano.models import WordBank, Lesson, Dialog, Section
 
 
 class DialogWordTableSerializer(serializers.ModelSerializer):

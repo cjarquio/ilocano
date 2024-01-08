@@ -5,7 +5,7 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.core.exceptions import ValidationError
 
-from userdb.models import AppUser
+from users.models import AppUser
 
 
 class UserCreationForm(forms.ModelForm):
