@@ -1,29 +1,35 @@
-import { ChakraProvider, Box, theme } from "@chakra-ui/react";
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { LsiRouter } from "./components/LsiRouter/LsiRouter";
-import { LessonDataProps } from "./components/Lesson/Lesson";
+import { useState } from 'react'
+import reactLogo from './assets/react.svg'
+import viteLogo from '/vite.svg'
+import './App.css'
 
-export const App = () => {
-  const [lessonData, setLessonData] = useState<LessonDataProps>();
-
-  useEffect(() => {
-    axios
-      .get(`/api/lessons/?current_lesson=1`)
-      .then((res) => res.data)
-      .then((currentLessonData: LessonDataProps[]) => {
-        setLessonData(currentLessonData[0]);
-      })
-      .catch((err) => console.log(err));
-  }, []);
+function App() {
+  const [count, setCount] = useState(0)
 
   return (
-    <ChakraProvider theme={theme}>
-      <Box padding={"1rem"}>
-        {/** Add App header */}
-        {lessonData && <LsiRouter lessonData={lessonData} />}
-      </Box>
-      {/** TODO: Add footer with previous/next section buttons */}
-    </ChakraProvider>
-  );
-};
+    <>
+      <div>
+        <a href="https://vitejs.dev" target="_blank">
+          <img src={viteLogo} className="logo" alt="Vite logo" />
+        </a>
+        <a href="https://react.dev" target="_blank">
+          <img src={reactLogo} className="logo react" alt="React logo" />
+        </a>
+      </div>
+      <h1>Vite + React</h1>
+      <div className="card">
+        <button onClick={() => setCount((count) => count + 1)}>
+          count is {count}
+        </button>
+        <p>
+          Edit <code>src/App.tsx</code> and save to test HMR
+        </p>
+      </div>
+      <p className="read-the-docs">
+        Click on the Vite and React logos to learn more
+      </p>
+    </>
+  )
+}
+
+export default App

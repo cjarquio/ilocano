@@ -10,7 +10,7 @@ services:
       - 80:80
     depends_on:
       - lets-speak-backend
-      - user-authentication
+      - lets-speak-ilocano
   lets-speak-backend:
     tty: true
     container_name: lets-speak-backend
@@ -20,17 +20,13 @@ services:
       - ./lets-speak-backend:/code
     ports:
       - 8000:8000
-    expose:
-      - "8000"
-  user-authentication:
+  lets-speak-ilocano:
     tty: true
-    container_name: user-authentication
-    build: ./user-authentication
-    command: yarn dev
+    container_name: lets-speak-ilocano
+    build: ./lets-speak-ilocano
+    command: sh -c "npm rebuild esbuild && yarn dev"
     ports:
       - 3000:3000
-    expose:
-      - "3000"
     image: no-react
     volumes:
-      - ./user-authentication:/code
+      - ./lets-speak-ilocano:/code

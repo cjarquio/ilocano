@@ -3,3 +3,4 @@ WORKDIR /code
 COPY package*.json /code/
 RUN yarn install
 COPY . /code/
+EXPOSE 3000
