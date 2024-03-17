@@ -1,0 +1,1 @@
+export {default as tropical} from './Tropical.png'
