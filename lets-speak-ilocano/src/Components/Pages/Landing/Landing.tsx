@@ -3,6 +3,8 @@ import classes from "./Landing.module.css";
 import { tropical } from "../../../assets/images";
 
 export const Landing = () => {
+  // TODO: Add in something about the how the site is based off the Let's Speak Ilocano book
+  // TODO: Add in something about the author
   return (
     <Container size="md">
       <Title>Start your Ilocano journey</Title>
