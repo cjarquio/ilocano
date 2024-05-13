@@ -18,7 +18,7 @@ export const Landing = () => {
           </Text>
           <Group mt={30}>
             <Button radius="xl" size="md" className={classes.control}>
-              Sign Up
+              Let's Get Started
             </Button>
             <Button
               variant="default"
@@ -26,7 +26,7 @@ export const Landing = () => {
               size="md"
               className={classes.control}
             >
-              Log In
+              I Already Have an Account
             </Button>
           </Group>
         </div>
