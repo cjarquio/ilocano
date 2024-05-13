@@ -1,6 +1,9 @@
 Create Super User
 docker-compose run lets-speak-backend python manage.py createsuperuser
 
+Clear Space on local device
+docker system prune --all
+
 Migrations
 docker-compose run lets-speak-backend python manage.py makemigrations
 docker-compose run lets-speak-backend python manage.py migrate
