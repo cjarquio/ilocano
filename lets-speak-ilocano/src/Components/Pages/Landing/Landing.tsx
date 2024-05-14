@@ -15,13 +15,22 @@ export const Landing = () => {
             access to interactive lessons and quizzes. It's easy to get started!
           </Text>
           <Group mt={30}>
-            <Button radius="xl" size="md" className={classes.control}>
-              Sign Up
+            <Button
+              variant="light"
+              color="indigo"
+              radius="md"
+              size="md"
+              fullWidth
+              className={classes.control}
+            >
+              Get Started
             </Button>
             <Button
-              variant="default"
-              radius="xl"
+              variant="filled"
+              color="teal"
+              radius="md"
               size="md"
+              fullWidth
               className={classes.control}
             >
               Log In
