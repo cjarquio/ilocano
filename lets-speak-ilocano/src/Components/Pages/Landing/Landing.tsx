@@ -1,8 +1,11 @@
 import { Image, Container, Title, Button, Text, Group } from "@mantine/core";
+import { useNavigate } from "react-router-dom";
 import classes from "./Landing.module.css";
 import { tropical } from "../../../assets/images";
 
 export const Landing = () => {
+  const navigate = useNavigate();
+
   return (
     <Container size="md">
       <Title>Start your Ilocano journey</Title>
@@ -15,14 +18,25 @@ export const Landing = () => {
             access to interactive lessons and quizzes. It's easy to get started!
           </Text>
           <Group mt={30}>
-            <Button radius="xl" size="md" className={classes.control}>
-              Sign Up
+            <Button
+              variant="light"
+              color="indigo"
+              radius="md"
+              size="md"
+              fullWidth
+              className={classes.control}
+              onClick={() => navigate("/register")}
+            >
+              Get Started
             </Button>
             <Button
-              variant="default"
-              radius="xl"
+              variant="filled"
+              color="teal"
+              radius="md"
               size="md"
+              fullWidth
               className={classes.control}
+              onClick={() => navigate("/login")}
             >
               Log In
             </Button>
