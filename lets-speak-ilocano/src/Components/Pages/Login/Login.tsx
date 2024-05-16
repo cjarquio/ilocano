@@ -21,7 +21,7 @@ export default function Login() {
         Welcome back to Agsarita Tayo!
       </Title>
 
-      <Paper withBorder shadow="md" p={30} mt={30} radius="md">
+      <Paper withBorder shadow="md" p={"xl"} mt={30} radius="md">
         <Group grow mb="md" mt="md">
           <GoogleButton radius="xl">Google</GoogleButton>
         </Group>

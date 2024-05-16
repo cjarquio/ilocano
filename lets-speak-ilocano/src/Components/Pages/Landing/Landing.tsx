@@ -25,6 +25,7 @@ export const Landing = () => {
               size="md"
               fullWidth
               className={classes.control}
+              onClick={() => navigate("/register")}
             >
               Get Started
             </Button>
