@@ -6,7 +6,7 @@ certifi==2023.7.22
 colorama==0.4.6
 dict-toolbox==4.1.1
 dill==0.3.6
-Django==4.1.6
+Django==4.2.13
 django-cors-headers==3.13.0
 django-environ==0.9.0
 djangorestframework==3.14.0
@@ -23,6 +23,7 @@ pop-config==12.0.2
 pop-loop==1.1.0
 psycopg2==2.9.5
 pycodestyle==2.11.0
+PyJWT==2.7.0
 pylint==2.16.2
 pylint-django==2.5.3
 pylint-plugin-utils==0.7
