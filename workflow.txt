@@ -1,0 +1,10 @@
+Create Super User
+docker-compose run lets-speak-backend python manage.py createsuperuser
+
+Migrations
+docker-compose run lets-speak-backend python manage.py makemigrations
+docker-compose run lets-speak-backend python manage.py migrate
+
+Run
+docker-compose build
+docker-compose up
