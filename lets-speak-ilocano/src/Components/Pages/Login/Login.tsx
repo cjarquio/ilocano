@@ -14,11 +14,11 @@ import {
 import { GoogleButton } from "../../Icons/GoogleButton";
 import classes from "./Login.module.css";
 
-export function Login() {
+export default function Login() {
   return (
     <Container size={420} my={40}>
       <Title ta="center" className={classes.title}>
-        Welcome back!
+        Welcome back to Agsarita Tayo!
       </Title>
 
       <Paper withBorder shadow="md" p={30} mt={30} radius="md">
@@ -31,7 +31,7 @@ export function Login() {
           labelPosition="center"
           my="lg"
         />
-        <TextInput label="Email" placeholder="you@mantine.dev" required />
+        <TextInput label="Email" placeholder="Email" required />
         <PasswordInput
           label="Password"
           placeholder="Your password"
@@ -44,7 +44,7 @@ export function Login() {
             Forgot password?
           </Anchor>
         </Group>
-        <Button fullWidth mt="xl">
+        <Button fullWidth color="teal" mt="xl">
           Sign in
         </Button>
 

@@ -1,8 +1,11 @@
 import { Image, Container, Title, Button, Text, Group } from "@mantine/core";
+import { useNavigate } from "react-router-dom";
 import classes from "./Landing.module.css";
 import { tropical } from "../../../assets/images";
 
 export const Landing = () => {
+  const navigate = useNavigate();
+
   return (
     <Container size="md">
       <Title>Start your Ilocano journey</Title>
@@ -32,6 +35,7 @@ export const Landing = () => {
               size="md"
               fullWidth
               className={classes.control}
+              onClick={() => navigate("/login")}
             >
               Log In
             </Button>
