@@ -3,19 +3,17 @@ from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
 
 
 class AppUserManager(BaseUserManager):
-    def create_user(self, first_name, last_name, email, username, password=None):
+    def create_user(self, email, username, first_name=None, last_name=None, password=None):
         """
         Creates and saves a User with the given email, date of
         birth and password.
         """
         if not email:
             raise ValueError("Users must have an email address")
+        if not username:
+            raise ValueError("Users must have an username")
         if not password:
             raise ValueError("A password is required.")
-        if not first_name:
-            raise ValueError("A first name is required.")
-        if not last_name:
-            raise ValueError("A last name is required.")
         if not username:
             raise ValueError("A username is required.")
 
@@ -34,6 +32,11 @@ class AppUserManager(BaseUserManager):
         """
         Creates and saves a superuser with the given full name, email, and password.
         """
+        if not first_name:
+            raise ValueError("A first name is required.")
+        if not last_name:
+            raise ValueError("A last name is required.")
+        
         user = self.create_user(
             first_name=first_name,
             last_name=last_name,
@@ -48,8 +51,8 @@ class AppUserManager(BaseUserManager):
 
 class AppUser(AbstractBaseUser):
     user_id = models.AutoField(primary_key=True)
-    first_name = models.CharField(max_length=50)
-    last_name = models.CharField(max_length=50)
+    first_name = models.CharField(max_length=50, null=True, blank=True)
+    last_name = models.CharField(max_length=50, null=True, blank=True)
     email = models.EmailField(
         verbose_name="email address",
         max_length=255,
