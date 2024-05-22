@@ -12,6 +12,7 @@ import { GoogleButton } from "../../Icons/GoogleButton";
 import classes from "./Registration.module.css";
 import { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 interface UserInfo {
   firstName?: string;
@@ -28,6 +29,7 @@ export default function Register() {
     password: "",
   });
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
+  const navigate = useNavigate();
 
   const handleUserInfo = (info: { [infoName: string]: string }) => {
     setUserInfo((prevState: UserInfo) => ({ ...prevState, ...info }));
@@ -39,7 +41,7 @@ export default function Register() {
     } else {
       axios
         .post(`${import.meta.env.VITE_DJANGO_API_URL}/register/`, userInfo)
-        .then(() => console.log("login successful"))
+        .then(() => navigate("/login"))
         .catch((err) => console.error(err));
     }
   };
