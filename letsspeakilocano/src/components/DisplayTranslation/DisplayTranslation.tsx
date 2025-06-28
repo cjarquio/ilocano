@@ -1,9 +1,19 @@
 'use client';
 import { Container, Text } from '@mantine/core';
-import * as React from 'react';
+import { useState, useEffect } from 'react';
+
+interface Translation {
+  id: number;
+  english: string;
+  ilocano: string;
+  exampleSentence?: string | null;
+  partOfSpeech?: string | null;
+}
 
 export const DisplayTranslation: React.FC = () => {
-  React.useEffect(() => {
+  const [translations, setTranslations] = useState<Translation[]>([]);
+
+  useEffect(() => {
     fetch('http://localhost:8000/api/words/')
       .then((response) => {
         if (!response.ok) {
@@ -12,12 +22,19 @@ export const DisplayTranslation: React.FC = () => {
         return response.json();
       })
       .then((data) => {
-        console.log('Fetched words:', data);
+        setTranslations(data);
       });
   }, []);
+
   return (
     <Container>
-      <Text>Hello</Text>
+      {translations.map((translation) => (
+        <Container key={translation.id} style={{ marginBottom: '20px' }}>
+          <Text size="xl">
+            {translation.ilocano} - {translation.english}
+          </Text>
+        </Container>
+      ))}
     </Container>
   );
 };
