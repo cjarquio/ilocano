@@ -1,4 +1,5 @@
-import { ColorSchemesSwitcher } from "@/components/color-schemes-switcher";
+import { ColorSchemesSwitcher } from '@/components/color-schemes-switcher';
+import DisplayTranslation from '@/components/DisplayTranslation/DisplayTranslation';
 import {
   AppShell,
   AppShellHeader,
@@ -6,8 +7,8 @@ import {
   Group,
   Text,
   Title,
-} from "@mantine/core";
-import Image from "next/image";
+} from '@mantine/core';
+import Image from 'next/image';
 
 export default function Home() {
   return (
@@ -25,21 +26,21 @@ export default function Home() {
       </AppShellHeader>
       <AppShellMain>
         <Title className="text-center mt-20">
-          Welcome to{" "}
+          Welcome to{' '}
           <Text
             inherit
             variant="gradient"
             component="span"
-            gradient={{ from: "pink", to: "yellow" }}
+            gradient={{ from: 'pink', to: 'yellow' }}
           >
             Mantine
-          </Text>{" "}
+          </Text>{' '}
           +
           <Text
             inherit
             variant="gradient"
             component="span"
-            gradient={{ from: "blue", to: "green" }}
+            gradient={{ from: 'blue', to: 'green' }}
           >
             TailwindCSS
           </Text>
@@ -58,6 +59,7 @@ export default function Home() {
 
         <div className="flex justify-center mt-10">
           <ColorSchemesSwitcher />
+          <DisplayTranslation />
         </div>
       </AppShellMain>
     </AppShell>
