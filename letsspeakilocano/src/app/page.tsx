@@ -1,7 +1,6 @@
 import { ColorSchemesSwitcher } from '@/components/ColorShemeSwitcher.tsx/ColorSchemeSwitcher';
 import DisplayTranslation from '@/components/DisplayTranslation/DisplayTranslation';
-import { AppShell, AppShellHeader, AppShellMain, Group } from '@mantine/core';
-import Image from 'next/image';
+import { AppShell, AppShellHeader, AppShellMain } from '@mantine/core';
 
 export default function Home() {
   return (
