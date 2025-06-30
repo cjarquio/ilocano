@@ -3,7 +3,6 @@
 import { useMantineColorScheme, ActionIcon } from '@mantine/core';
 import { IconMoon, IconSun } from '@tabler/icons-react';
 
-// TODO: Create as button for Header
 export function ColorSchemesSwitcher() {
   const { toggleColorScheme, colorScheme } = useMantineColorScheme();
 
