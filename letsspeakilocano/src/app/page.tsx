@@ -1,11 +1,6 @@
 import { ColorSchemesSwitcher } from '@/components/color-schemes-switcher';
 import DisplayTranslation from '@/components/DisplayTranslation/DisplayTranslation';
-import {
-  AppShell,
-  AppShellHeader,
-  AppShellMain,
-  Group,
-} from '@mantine/core';
+import { AppShell, AppShellHeader, AppShellMain, Group } from '@mantine/core';
 import Image from 'next/image';
 
 export default function Home() {
@@ -20,12 +15,10 @@ export default function Home() {
             width={100}
             height={100}
           />
+          <ColorSchemesSwitcher />
         </Group>
       </AppShellHeader>
       <AppShellMain>
-        <div className="flex justify-center mt-10">
-          <ColorSchemesSwitcher />
-        </div>
         <div className="flex justify-center mt-10">
           <DisplayTranslation />
         </div>
