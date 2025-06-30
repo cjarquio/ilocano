@@ -12,6 +12,8 @@ export interface Translation {
   partOfSpeech?: string | null;
 }
 
+// TODO: Delay showing the component until translations are fetched
+// This prevents the component from rendering with an empty state
 export const DisplayTranslation: React.FC = () => {
   const [translations, setTranslations] = useState<Translation[]>([]);
   const [translationIndex, setTranslationIndex] = useState<number>(0);
