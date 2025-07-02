@@ -1,13 +1,11 @@
-import { ColorSchemesSwitcher } from '@/components/ColorShemeSwitcher.tsx/ColorSchemeSwitcher';
 import DisplayTranslation from '@/components/DisplayTranslation/DisplayTranslation';
-import { AppShell, AppShellHeader, AppShellMain } from '@mantine/core';
+import { Header } from '@/components/Header/Header';
+import { AppShell, AppShellMain } from '@mantine/core';
 
 export default function Home() {
   return (
     <AppShell header={{ height: 60 }} padding="md">
-      <AppShellHeader>
-        <ColorSchemesSwitcher />
-      </AppShellHeader>
+      <Header />
       <AppShellMain>
         <div className="flex justify-center mt-10">
           <DisplayTranslation />
