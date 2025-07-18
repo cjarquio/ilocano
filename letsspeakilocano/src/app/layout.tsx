@@ -9,7 +9,7 @@ import './globals.css';
 import '@mantine/core/styles.css';
 
 export const metadata: Metadata = {
-  title: "Agsao tayo",
+  title: 'Agsaritatayo',
   description: 'Next App Mantine Tailwind Template',
 };
 
