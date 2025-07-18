@@ -1,5 +1,6 @@
-import DisplayTranslation from '@/components/DisplayTranslation/DisplayTranslation';
+// import DisplayTranslation from '@/components/DisplayTranslation/DisplayTranslation';
 import { Header } from '@/components/Header/Header';
+import Landing from '@/components/Landing/Landing';
 import { AppShell, AppShellMain } from '@mantine/core';
 
 export default function Home() {
@@ -8,7 +9,7 @@ export default function Home() {
       <Header />
       <AppShellMain>
         <div className="flex justify-center mt-10">
-          <DisplayTranslation />
+          <Landing />
         </div>
       </AppShellMain>
     </AppShell>
