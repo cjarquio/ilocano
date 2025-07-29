@@ -1,15 +1,23 @@
-import { Container, Title, Text } from '@mantine/core';
+import { Container, Title, Text, Image } from '@mantine/core';
+import NextImage from 'next/image';
 import * as React from 'react';
+import Hello from '../../assets/images/Hello.jpg';
 
 const Landing: React.FC = () => {
   return (
     <Container>
       {/**TODO: Center this title on page */}
       <Title order={1} m={0} p={0}>
-        Agsaritatayo ti ilocano (Let{"'"}s Talk in Ilocano)
+        Agsaritatayo ti Ilocano (Let{"'"}s Speak Ilocano)
       </Title>
       {/** TODO: Keep this left aligned */}
       {/** TODO: Add AI image of cartoon me with speech bubble saying kumustakayo amin? */}
+      <Image
+        component={NextImage}
+        radius={'md'}
+        src={Hello}
+        alt="Filipino Couple"
+      />
       <Title order={2}>Welcome!</Title>
       <Text>
         Ilocano is a rich language rooted in the northern part of the Luzon
