@@ -1,4 +1,5 @@
-import { Container, Title, Text, Image, Center, Group } from '@mantine/core';
+'use client';
+import { Container, Title, Text, Image, Center, Grid } from '@mantine/core';
 import NextImage from 'next/image';
 import * as React from 'react';
 import Hello from '../../assets/images/Hello.jpg';
@@ -12,14 +13,16 @@ const Landing: React.FC = () => {
           Agsaritatayo ti Ilocano (Let{"'"}s Speak Ilocano)
         </Title>
       </Center>
-      <Container strategy="grid">
-        <Group>
-          {/** TODO: Keep this left aligned */}
+      <Grid>
+        <Grid.Col span={6} className="flex flex-col items-center">
           <Image
             component={NextImage}
             radius={'md'}
             src={Hello}
-            alt="Filipino Couple"
+            h={'40dvh'}
+            w={'40dvh'}
+            fit="contain"
+            alt="Hello Ilocano"
           />
           <Title order={2}>Welcome!</Title>
           <Text>
@@ -34,11 +37,12 @@ const Landing: React.FC = () => {
             {"'"}ve signed up for an account, you will have access to
             interactive lessons and quizzes. It{"'"}s easy to get started!
           </Text>
-        </Group>
-
-        {/* {"TODO: Add sign up and Login anchor here"} */}
-        <AuthenticationDisplay />
-      </Container>
+        </Grid.Col>
+        <Grid.Col span={1} />
+        <Grid.Col span={5} className="flex items-center justify-center">
+          <AuthenticationDisplay />
+        </Grid.Col>
+      </Grid>
     </Container>
   );
 };
