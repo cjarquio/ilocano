@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { Paper, Tabs } from '@mantine/core';
 import LogIn from '../Login/LogIn';
+import SignUp from '../SignUp/SignUp';
 
 export const AuthenticationDisplay: React.FC = () => {
   const [activeTab, setActiveTab] = useState<string | null>('logIn');
@@ -29,7 +30,9 @@ export const AuthenticationDisplay: React.FC = () => {
         <Tabs.Panel value="logIn">
           <LogIn />
         </Tabs.Panel>
-        <Tabs.Panel value="signUp">Second panel</Tabs.Panel>
+        <Tabs.Panel value="signUp">
+          <SignUp />
+        </Tabs.Panel>
       </Tabs>
     </Paper>
   );
