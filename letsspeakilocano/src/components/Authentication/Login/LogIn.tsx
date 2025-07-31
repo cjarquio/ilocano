@@ -10,7 +10,7 @@ import {
 
 export const LogIn: React.FC = () => {
   return (
-    <Container>
+    <Container className="mt-8">
       <TextInput label="Email" placeholder="Your Email" required radius="md" />
       <PasswordInput
         label="Password"

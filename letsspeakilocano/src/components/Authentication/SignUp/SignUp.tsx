@@ -8,15 +8,15 @@ import {
 
 export const SignUp: React.FC = () => {
   return (
-    <Container>
-      <Group justify="space-between">
+    <Container className="mt-2">
+      <Group justify="space-between" wrap="nowrap">
         <TextInput label="First Name" required radius="md" />
         <TextInput label="Last Name" required radius="md" />
       </Group>
-      <TextInput label="Username" required mt="md" radius="md" />
-      <TextInput label="Email" required radius="md" />
-      <PasswordInput label="Password" required mt="md" radius="md" />
-      <Button fullWidth mt="xl" radius="md">
+      <TextInput label="Username" required mt="xs" radius="md" />
+      <TextInput label="Email" required radius="xs" />
+      <PasswordInput label="Password" required mt="xs" radius="md" />
+      <Button fullWidth mt="md" radius="md">
         Register
       </Button>
     </Container>
