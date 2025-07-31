@@ -1,6 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { Paper, Tabs } from '@mantine/core';
+import LogIn from '../Login/LogIn';
 
 export const AuthenticationDisplay: React.FC = () => {
   const [activeTab, setActiveTab] = useState<string | null>('logIn');
@@ -21,11 +22,13 @@ export const AuthenticationDisplay: React.FC = () => {
         onChange={setActiveTab}
       >
         <Tabs.List>
-          <Tabs.Tab value="logIn">First tab</Tabs.Tab>
-          <Tabs.Tab value="signUp">Second tab</Tabs.Tab>
+          <Tabs.Tab value="logIn">LOG IN</Tabs.Tab>
+          <Tabs.Tab value="signUp">SIGN UP</Tabs.Tab>
         </Tabs.List>
 
-        <Tabs.Panel value="logIn">First panel</Tabs.Panel>
+        <Tabs.Panel value="logIn">
+          <LogIn />
+        </Tabs.Panel>
         <Tabs.Panel value="signUp">Second panel</Tabs.Panel>
       </Tabs>
     </Paper>
