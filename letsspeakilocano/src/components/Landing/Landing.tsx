@@ -5,6 +5,7 @@ import * as React from 'react';
 import Hello from '../../assets/images/Hello.jpg';
 import { AuthenticationDisplay } from '../Authentication';
 
+// TODO: Need to style better for Desktop and Mobile
 const Landing: React.FC = () => {
   return (
     <Container>

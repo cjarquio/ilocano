@@ -32,6 +32,7 @@ export const Header = () => {
         <Image src={'/AgsaoTayoLogo.png'} alt="Agsao Logo" w={60} h={60} />
         <Group gap={5} visibleFrom="xs">
           {items}
+          {/* TODO: Causing occassional hydration error */}
           <ColorSchemesSwitcher />
         </Group>
 
