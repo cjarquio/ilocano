@@ -6,6 +6,10 @@ import SignUp from '../SignUp/SignUp';
 
 export const AuthenticationDisplay: React.FC = () => {
   const [activeTab, setActiveTab] = useState<string | null>('logIn');
+  // TODO: Set value state for form inputs
+  // TODO: Reset form values when switching tabs
+
+  // TODO: Handle tab change
 
   return (
     <Paper h={'60dvh'} w={'100%'} shadow="xs" p="md" withBorder>
