@@ -25,4 +25,5 @@ router.register(r'words', views.WordViewSet, 'ilocano')
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
+    path('api/login/', views.login_view, name='login'),
 ]
