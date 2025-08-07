@@ -8,6 +8,7 @@ export default function Home() {
     <AppShell header={{ height: 60 }} padding="md">
       <Header />
       <Landing />
+      {/* <DisplayTranslation /> */}
     </AppShell>
   );
 }

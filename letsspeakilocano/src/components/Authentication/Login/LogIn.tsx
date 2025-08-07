@@ -26,6 +26,7 @@ export const LogIn: React.FC = () => {
   });
 
   const handleLogin = () => {
+    console.log('Form values:', form.values);
     try {
       fetch('http://localhost:8000/api/login/', {
         method: 'POST',
