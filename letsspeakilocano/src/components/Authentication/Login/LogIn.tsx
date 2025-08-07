@@ -7,26 +7,24 @@ import {
   PasswordInput,
   TextInput,
 } from '@mantine/core';
-import { useForm, isEmail, hasLength } from '@mantine/form';
+import { useState } from 'react';
 
 export const LogIn: React.FC = () => {
-  const form = useForm({
-    mode: 'uncontrolled',
-    initialValues: {
-      email: '',
-      password: '',
-    },
-    validate: {
-      email: isEmail('Invalid email'),
-      password: hasLength(
-        { min: 6 },
-        'Password must be at least 6 characters long'
-      ),
-    },
+  const [loginInfo, setLoginInfo] = useState({
+    email: '',
+    password: '',
   });
 
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    setLoginInfo((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
   const handleLogin = () => {
-    console.log('Form values:', form.values);
+    console.log('Form values:', loginInfo);
     try {
       fetch('http://localhost:8000/api/login/', {
         method: 'POST',
@@ -34,8 +32,8 @@ export const LogIn: React.FC = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          email: form.values.email,
-          password: form.values.password,
+          email: loginInfo.email,
+          password: loginInfo.password,
         }),
       }).then((response) => {
         if (!response.ok) {
@@ -54,7 +52,9 @@ export const LogIn: React.FC = () => {
         placeholder="Your Email"
         required
         radius="md"
-        {...form.getInputProps('email')}
+        onChange={handleChange}
+        value={loginInfo.email}
+        name="email"
       />
       <PasswordInput
         label="Password"
@@ -62,8 +62,9 @@ export const LogIn: React.FC = () => {
         required
         mt="md"
         radius="md"
-        key={form.key('password')}
-        {...form.getInputProps('password')}
+        onChange={handleChange}
+        value={loginInfo.password}
+        name="password"
       />
       <Group justify="space-between" mt="lg">
         <Checkbox label="Remember me" />
