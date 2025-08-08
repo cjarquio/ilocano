@@ -10,5 +10,7 @@
     "**/*.sass",
     "**/*.less",
     "node_modules/@mantine/core/styles.layer.css"
-  ]
+  ],
+  "python-envs.defaultEnvManager": "ms-python.python:system",
+  "python-envs.pythonProjects": []
 }
