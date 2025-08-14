@@ -42,7 +42,7 @@ export const SignUp: React.FC = () => {
     // Handle registration logic here
     console.log('Form values:', form.values);
     try {
-      fetch('http://localhost:8000/api/register/', {
+      fetch('http://localhost:8000/register/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

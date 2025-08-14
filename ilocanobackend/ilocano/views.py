@@ -1,66 +1,86 @@
-import json
-
+from django.contrib.auth.models import User
+from django.contrib.auth import login
 from django.http import JsonResponse
-from django.middleware.csrf import get_token
-from django.views.decorators.http import require_POST
-from django.contrib.auth import authenticate, login, logout
-from rest_framework.authentication import SessionAuthentication, BasicAuthentication
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.views import APIView
+from django.views.decorators.csrf import csrf_exempt
+import json
 
 from rest_framework import viewsets
 from ilocano.models import Word
 from ilocano.serializers import WordSerializer
 
-def get_csrf(request):
-    response = JsonResponse({'detail': 'CSRF cookie set'})
-    response['X-CSRFToken'] = get_token(request)
-    return response
+@csrf_exempt
+def register(request):
+    print(request)
+    # if request.method == 'POST':
+    #     try:
+    #         data = json.loads(request.body)
+    #         username = data.get('username')
+    #         password = data.get('password')
+    #         email = data.get('email', '')
 
-@require_POST
-def login_view(request):
-    print("Login view called")
-    print("Request body:", request.body)
-    data = json.loads(request.body)
-    username = data.get('username')
-    password = data.get('password')
+    #         if not username or not password:
+    #             return JsonResponse({'detail': 'Username and password required.'}, status=400)
 
-    if username is None or password is None:
-        return JsonResponse({'detail': 'Please provide username and password.'}, status=400)
+    #         if User.objects.filter(username=username).exists():
+    #             return JsonResponse({'detail': 'Username already exists.'}, status=400)
 
-    user = authenticate(username=username, password=password)
+    #         user = User.objects.create_user(username=username, password=password, email=email)
+    #         login(request, user)
+    #         return JsonResponse({'detail': 'Registration successful.', 'username': user.username})
+    #     except Exception as e:
+    #         return JsonResponse({'detail': str(e)}, status=400)
+    # else:
+    #     return JsonResponse({'detail': 'POST method required.'}, status=405)
 
-    if user is None:
-        return JsonResponse({'detail': 'Invalid credentials.'}, status=400)
+# def get_csrf(request):
+#     response = JsonResponse({'detail': 'CSRF cookie set'})
+#     response['X-CSRFToken'] = get_token(request)
+#     return response
 
-    login(request, user)
-    return JsonResponse({'detail': 'Successfully logged in.'})
+# @require_POST
+# def login_view(request):
+#     print("Login view called")
+#     print("Request body:", request.body)
+#     data = json.loads(request.body)
+#     username = data.get('username')
+#     password = data.get('password')
+
+#     if username is None or password is None:
+#         return JsonResponse({'detail': 'Please provide username and password.'}, status=400)
+
+#     user = authenticate(username=username, password=password)
+
+#     if user is None:
+#         return JsonResponse({'detail': 'Invalid credentials.'}, status=400)
+
+#     login(request, user)
+#     return JsonResponse({'detail': 'Successfully logged in.'})
 
 
-def logout_view(request):
-    if not request.user.is_authenticated:
-        return JsonResponse({'detail': 'You\'re not logged in.'}, status=400)
+# def logout_view(request):
+#     if not request.user.is_authenticated:
+#         return JsonResponse({'detail': 'You\'re not logged in.'}, status=400)
 
-    logout(request)
-    return JsonResponse({'detail': 'Successfully logged out.'})
-
-
-class SessionView(APIView):
-    authentication_classes = [SessionAuthentication, BasicAuthentication]
-    permission_classes = [IsAuthenticated]
-
-    @staticmethod
-    def get(request, format=None):
-        return JsonResponse({'isAuthenticated': True})
+#     logout(request)
+#     return JsonResponse({'detail': 'Successfully logged out.'})
 
 
-class WhoAmIView(APIView):
-    authentication_classes = [SessionAuthentication, BasicAuthentication]
-    permission_classes = [IsAuthenticated]
+# class SessionView(APIView):
+#     authentication_classes = [SessionAuthentication, BasicAuthentication]
+#     permission_classes = [IsAuthenticated]
 
-    @staticmethod
-    def get(request, format=None):
-        return JsonResponse({'username': request.user.username})
+#     @staticmethod
+#     def get(request, format=None):
+#         return JsonResponse({'isAuthenticated': True})
+
+
+# class WhoAmIView(APIView):
+#     authentication_classes = [SessionAuthentication, BasicAuthentication]
+#     permission_classes = [IsAuthenticated]
+
+#     @staticmethod
+#     def get(request, format=None):
+#         return JsonResponse({'username': request.user.username})
 
 class WordViewSet(viewsets.ModelViewSet):
     """
