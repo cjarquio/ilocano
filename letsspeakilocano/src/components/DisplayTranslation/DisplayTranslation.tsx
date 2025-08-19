@@ -47,31 +47,33 @@ export const DisplayTranslation: React.FC = () => {
   }, []);
 
   return (
-    <Container className="flex items-center w-3/4 justify-between">
-      <ActionIcon
-        variant="default"
-        size="lg"
-        radius="md"
-        onClick={() => handleTranslationIndex('prev')}
-      >
-        <IconArrowLeftDashed size={18} />
-      </ActionIcon>
-      {translations.length > 0 && (
-        <FlashCard
-          word={translations[translationIndex]}
-          displayEnglish={displayEnglish}
-          handleDisplayEnglish={handleDisplayEnglish}
-        />
-      )}
-      <ActionIcon
-        variant="default"
-        size="lg"
-        radius="md"
-        onClick={() => handleTranslationIndex('next')}
-      >
-        <IconArrowRightDashed size={18} />
-      </ActionIcon>
-    </Container>
+    translations.length > 0 && (
+      <Container className="flex items-center w-3/4 justify-between">
+        <ActionIcon
+          variant="default"
+          size="lg"
+          radius="md"
+          onClick={() => handleTranslationIndex('prev')}
+        >
+          <IconArrowLeftDashed size={18} />
+        </ActionIcon>
+        {translations.length > 0 && (
+          <FlashCard
+            word={translations[translationIndex]}
+            displayEnglish={displayEnglish}
+            handleDisplayEnglish={handleDisplayEnglish}
+          />
+        )}
+        <ActionIcon
+          variant="default"
+          size="lg"
+          radius="md"
+          onClick={() => handleTranslationIndex('next')}
+        >
+          <IconArrowRightDashed size={18} />
+        </ActionIcon>
+      </Container>
+    )
   );
 };
 
