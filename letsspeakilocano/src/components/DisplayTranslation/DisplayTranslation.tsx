@@ -34,7 +34,7 @@ export const DisplayTranslation: React.FC = () => {
   };
 
   useEffect(() => {
-    fetch('http://localhost:8000/api/words/')
+    fetch('/api/words/')
       .then((response) => {
         if (!response.ok) {
           throw new Error('Network response was not ok');

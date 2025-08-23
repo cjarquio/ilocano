@@ -7,6 +7,9 @@ RUN mkdir /app
 # Set the working directory
 WORKDIR /app
 
+LABEL maintainer="cjarquio@gmail.com"
+LABEL description="Development image for ilocano application"
+
 # Set environment variables to optimize Python
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1 
