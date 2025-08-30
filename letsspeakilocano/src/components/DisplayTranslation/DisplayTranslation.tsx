@@ -32,16 +32,16 @@ export const DisplayTranslation: React.FC = () => {
   };
 
   useEffect(() => {
-    fetch('/api/words/')
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.json();
-      })
-      .then((data) => {
-        setTranslations(data);
-      });
+    const getTranslations = async () => {
+      const data = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/words`
+      );
+      const words = await data.json();
+
+      setTranslations(words);
+    };
+
+    getTranslations();
   }, []);
 
   return (

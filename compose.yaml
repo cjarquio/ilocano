@@ -16,6 +16,7 @@ services:
       - ilocano-app
   backend:
     container_name: ilocanobackend
+    restart: always
     build:
       context: ./ilocanobackend
       dockerfile: Dockerfile
@@ -36,7 +37,7 @@ services:
     networks:
       - ilocano-app
     volumes:
-      - ./ilocanobackend:/app/backend
+      - ilocanobackend:/app/backend
     command: bash -c "sleep 10 && python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
   frontend:
     container_name: letsspeakilocano
@@ -49,7 +50,7 @@ services:
     depends_on:
       - backend
     volumes:
-      - ./letsspeakilocano:/app/frontend
+      - letsspeakilocano:/app/frontend
     networks:
       - ilocano-app
   nginx:
@@ -67,6 +68,8 @@ services:
       - ilocano-app
 volumes:
   postgres_data:
+  ilocanobackend:
+  letsspeakilocano:
 networks:
   ilocano-app:
     driver: bridge
