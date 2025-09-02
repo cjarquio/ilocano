@@ -12,8 +12,6 @@ export interface Translation {
   partOfSpeech?: string | null;
 }
 
-// TODO: Delay showing the component until translations are fetched
-// This prevents the component from rendering with an empty state
 export const DisplayTranslation: React.FC = () => {
   const [translations, setTranslations] = useState<Translation[]>([]);
   const [translationIndex, setTranslationIndex] = useState<number>(0);
@@ -34,44 +32,46 @@ export const DisplayTranslation: React.FC = () => {
   };
 
   useEffect(() => {
-    fetch('http://localhost:8000/api/words/')
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.json();
-      })
-      .then((data) => {
-        setTranslations(data);
-      });
+    const getTranslations = async () => {
+      const data = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/words`
+      );
+      const words = await data.json();
+
+      setTranslations(words);
+    };
+
+    getTranslations();
   }, []);
 
   return (
-    <Container className="flex items-center w-3/4 justify-between">
-      <ActionIcon
-        variant="default"
-        size="lg"
-        radius="md"
-        onClick={() => handleTranslationIndex('prev')}
-      >
-        <IconArrowLeftDashed size={18} />
-      </ActionIcon>
-      {translations.length > 0 && (
-        <FlashCard
-          word={translations[translationIndex]}
-          displayEnglish={displayEnglish}
-          handleDisplayEnglish={handleDisplayEnglish}
-        />
-      )}
-      <ActionIcon
-        variant="default"
-        size="lg"
-        radius="md"
-        onClick={() => handleTranslationIndex('next')}
-      >
-        <IconArrowRightDashed size={18} />
-      </ActionIcon>
-    </Container>
+    translations.length > 0 && (
+      <Container className="flex items-center w-3/4 justify-between">
+        <ActionIcon
+          variant="default"
+          size="lg"
+          radius="md"
+          onClick={() => handleTranslationIndex('prev')}
+        >
+          <IconArrowLeftDashed size={18} />
+        </ActionIcon>
+        {translations.length > 0 && (
+          <FlashCard
+            word={translations[translationIndex]}
+            displayEnglish={displayEnglish}
+            handleDisplayEnglish={handleDisplayEnglish}
+          />
+        )}
+        <ActionIcon
+          variant="default"
+          size="lg"
+          radius="md"
+          onClick={() => handleTranslationIndex('next')}
+        >
+          <IconArrowRightDashed size={18} />
+        </ActionIcon>
+      </Container>
+    )
   );
 };
 
