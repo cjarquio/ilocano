@@ -38,25 +38,27 @@ export const SignUp: React.FC = () => {
       ),
     },
   });
-  const handleRegister = () => {
-    // Handle registration logic here
-    console.log('Form values:', form.values);
+  const handleRegister = async () => {
     try {
-      fetch('http://localhost:8000/register/', {
+      await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/register/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          first_name: form.values.firstName,
-          last_name: form.values.lastName,
+          firstName: form.values.firstName,
+          lastName: form.values.lastName,
           username: form.values.username,
           email: form.values.email,
           password: form.values.password,
         }),
-      }).then((response) => {
+      }).then(async (response) => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
+        } else {
+          const thing = await response.text();
+
+          console.log(thing);
         }
       });
     } catch (error) {

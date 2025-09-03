@@ -1,1 +1,1 @@
-export {default as AuthenticationDisplay} from './AuthenticanDisplay/AuthenticationDisplay';
+export {default as AuthenticationDisplay} from './AuthenticationDisplay/AuthenticationDisplay';

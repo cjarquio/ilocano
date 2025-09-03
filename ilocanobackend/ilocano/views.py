@@ -11,26 +11,28 @@ from ilocano.serializers import WordSerializer
 @csrf_exempt
 def register(request):
     print(request)
-    # if request.method == 'POST':
-    #     try:
-    #         data = json.loads(request.body)
-    #         username = data.get('username')
-    #         password = data.get('password')
-    #         email = data.get('email', '')
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            username = data.get('username')
+            first_name = data.get('firstName')
+            last_name = data.get('lastName')
+            password = data.get('password')
+            email = data.get('email', '')
 
-    #         if not username or not password:
-    #             return JsonResponse({'detail': 'Username and password required.'}, status=400)
+            if not username or not password:
+                return JsonResponse({'detail': 'Username and password required.'}, status=400)
 
-    #         if User.objects.filter(username=username).exists():
-    #             return JsonResponse({'detail': 'Username already exists.'}, status=400)
+            if User.objects.filter(username=username).exists():
+                return JsonResponse({'detail': 'Username already exists.'}, status=400)
 
-    #         user = User.objects.create_user(username=username, password=password, email=email)
-    #         login(request, user)
-    #         return JsonResponse({'detail': 'Registration successful.', 'username': user.username})
-    #     except Exception as e:
-    #         return JsonResponse({'detail': str(e)}, status=400)
-    # else:
-    #     return JsonResponse({'detail': 'POST method required.'}, status=405)
+            user = User.objects.create_user(username=username, password=password, email=email, first_name=first_name, last_name=last_name)
+            login(request, user)
+            return JsonResponse({'detail': 'Registration successful.', 'username': user.username})
+        except Exception as e:
+            return JsonResponse({'detail': str(e)}, status=400)
+    else:
+        return JsonResponse({'detail': 'POST method required.'}, status=405)
 
 # def get_csrf(request):
 #     response = JsonResponse({'detail': 'CSRF cookie set'})
