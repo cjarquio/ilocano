@@ -6,7 +6,7 @@ import {
   PasswordInput,
   TextInput,
 } from '@mantine/core';
-import { FormEvent, useState } from 'react';
+import { FormEvent } from 'react';
 import { useForm } from '@mantine/form';
 
 export const LogIn: React.FC = () => {
