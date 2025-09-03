@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-from django.contrib.auth import login
+from django.contrib.auth import login, authenticate
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
@@ -10,7 +10,6 @@ from ilocano.serializers import WordSerializer
 
 @csrf_exempt
 def register(request):
-    print(request)
     if request.method == 'POST':
         try:
             data = json.loads(request.body)
@@ -39,24 +38,27 @@ def register(request):
 #     response['X-CSRFToken'] = get_token(request)
 #     return response
 
-# @require_POST
-# def login_view(request):
-#     print("Login view called")
-#     print("Request body:", request.body)
-#     data = json.loads(request.body)
-#     username = data.get('username')
-#     password = data.get('password')
+# TODO: Change csrf exempt to proper check
+@csrf_exempt
+def login_view(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        username = data.get('username')
+        password = data.get('password')
 
-#     if username is None or password is None:
-#         return JsonResponse({'detail': 'Please provide username and password.'}, status=400)
+        if username is None or password is None:
+            return JsonResponse({'detail': 'Please provide username and password.'}, status=400)
 
-#     user = authenticate(username=username, password=password)
+        user = authenticate(username=username, password=password)
 
-#     if user is None:
-#         return JsonResponse({'detail': 'Invalid credentials.'}, status=400)
+        if user is None:
+            return JsonResponse({'detail': 'Invalid credentials.'}, status=400)
 
-#     login(request, user)
-#     return JsonResponse({'detail': 'Successfully logged in.'})
+        login(request, user)
+        return JsonResponse({'detail': 'Successfully logged in.'})
+    
+    else:
+        return JsonResponse({'detail': 'POST method required'}, status=405)
 
 
 # def logout_view(request):

@@ -27,7 +27,7 @@ urlpatterns = [
     path('api/', include(router.urls)),
     path('register/', views.register, name='register'),
     # path('api/csrf/', views.get_csrf, name='get_csrf'),
-    # path('api/login/', views.login_view, name='login'),
+    path('login/', views.login_view, name='login'),
     # path('api/logout/', views.logout_view, name='logout'),
     # path('api/session/', views.SessionView.as_view(), name='session'),
     # path('api/whoami/', views.WhoAmIView.as_view(), name='whoami'),

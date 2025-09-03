@@ -11,7 +11,7 @@ import { useState } from 'react';
 
 export const LogIn: React.FC = () => {
   const [loginInfo, setLoginInfo] = useState({
-    email: '',
+    username: '',
     password: '',
   });
 
@@ -23,21 +23,25 @@ export const LogIn: React.FC = () => {
     }));
   };
 
-  const handleLogin = () => {
-    console.log('Form values:', loginInfo);
+  const handleLogin = async () => {
     try {
-      fetch('http://localhost:8000/api/login/', {
+      await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/login/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          email: loginInfo.email,
+          username: loginInfo.username,
           password: loginInfo.password,
         }),
-      }).then((response) => {
+      }).then(async (response) => {
         if (!response.ok) {
-          throw new Error('Network response was not ok');
+          const error = await response.text();
+          throw new Error(error);
+        } else {
+          const successMessage = await response.text();
+
+          console.log(successMessage);
         }
       });
     } catch (error) {
@@ -48,17 +52,15 @@ export const LogIn: React.FC = () => {
   return (
     <Container className="mt-8">
       <TextInput
-        label="Email"
-        placeholder="Your Email"
+        label="Username"
         required
         radius="md"
         onChange={handleChange}
-        value={loginInfo.email}
-        name="email"
+        value={loginInfo.username}
+        name="username"
       />
       <PasswordInput
         label="Password"
-        placeholder="Your Password"
         required
         mt="md"
         radius="md"
