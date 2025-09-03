@@ -1,11 +1,6 @@
-import {
-  Button,
-  Container,
-  Group,
-  PasswordInput,
-  TextInput,
-} from '@mantine/core';
+import { Button, Group, PasswordInput, TextInput } from '@mantine/core';
 import { useForm, isEmail, hasLength } from '@mantine/form';
+import { FormEvent } from 'react';
 
 // TODO: Add Formik for form handling and validation
 export const SignUp: React.FC = () => {
@@ -38,7 +33,9 @@ export const SignUp: React.FC = () => {
       ),
     },
   });
-  const handleRegister = async () => {
+  const handleRegister = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
     try {
       await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/register/`, {
         method: 'POST',
@@ -56,9 +53,7 @@ export const SignUp: React.FC = () => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
         } else {
-          const thing = await response.text();
-
-          console.log(thing);
+          form.reset();
         }
       });
     } catch (error) {
@@ -66,19 +61,22 @@ export const SignUp: React.FC = () => {
       // Handle registration error (e.g., show notification)
     }
   };
+
   return (
-    <Container className="mt-2">
+    <form onSubmit={(e) => handleRegister(e)}>
       <Group justify="space-between" wrap="nowrap">
         <TextInput
           label="First Name"
           required
           radius="md"
+          key={form.key('firstName')}
           {...form.getInputProps('firstName')}
         />
         <TextInput
           label="Last Name"
           required
           radius="md"
+          key={form.key('lastName')}
           {...form.getInputProps('lastName')}
         />
       </Group>
@@ -87,12 +85,14 @@ export const SignUp: React.FC = () => {
         required
         mt="xs"
         radius="md"
+        key={form.key('username')}
         {...form.getInputProps('username')}
       />
       <TextInput
         label="Email"
         required
         radius="xs"
+        key={form.key('email')}
         {...form.getInputProps('email')}
       />
       <PasswordInput
@@ -103,10 +103,10 @@ export const SignUp: React.FC = () => {
         key={form.key('password')}
         {...form.getInputProps('password')}
       />
-      <Button fullWidth mt="md" radius="md" onClick={handleRegister}>
+      <Button type="submit" fullWidth mt="md" radius="md">
         Register
       </Button>
-    </Container>
+    </form>
   );
 };
 
