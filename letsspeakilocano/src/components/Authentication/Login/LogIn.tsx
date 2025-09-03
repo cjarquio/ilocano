@@ -2,30 +2,29 @@ import {
   Anchor,
   Button,
   Checkbox,
-  Container,
   Group,
   PasswordInput,
   TextInput,
 } from '@mantine/core';
-import { useState } from 'react';
+import { FormEvent, useState } from 'react';
 
 export const LogIn: React.FC = () => {
-  const [loginInfo, setLoginInfo] = useState({
-    username: '',
-    password: '',
-  });
+  const [loginInfo, setLoginInfo] = useState({ username: '', password: '' });
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
+
     setLoginInfo((prev) => ({
       ...prev,
       [name]: value,
     }));
   };
 
-  const handleLogin = async () => {
+  const handleLogin = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
     try {
-      await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/login/`, {
+      fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/login/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -34,29 +33,32 @@ export const LogIn: React.FC = () => {
           username: loginInfo.username,
           password: loginInfo.password,
         }),
-      }).then(async (response) => {
-        if (!response.ok) {
-          const error = await response.text();
-          throw new Error(error);
-        } else {
-          const successMessage = await response.text();
+      })
+        .then(async (response) => {
+          if (!response.ok) {
+            const error = await response.text();
+            throw new Error(error);
+          } else {
+            const successMessage = await response.text();
 
-          console.log(successMessage);
-        }
-      });
+            console.log(successMessage);
+          }
+        })
+        .then(() => setLoginInfo({ username: '', password: '' }));
     } catch (error) {
       console.error('Login failed:', error);
       // Handle login error (e.g., show notification)
     }
   };
+
   return (
-    <Container className="mt-8">
+    <form className="mt-8" onSubmit={(e) => handleLogin(e)}>
       <TextInput
         label="Username"
         required
         radius="md"
-        onChange={handleChange}
         value={loginInfo.username}
+        onChange={handleChange}
         name="username"
       />
       <PasswordInput
@@ -64,8 +66,8 @@ export const LogIn: React.FC = () => {
         required
         mt="md"
         radius="md"
-        onChange={handleChange}
         value={loginInfo.password}
+        onChange={handleChange}
         name="password"
       />
       <Group justify="space-between" mt="lg">
@@ -74,10 +76,10 @@ export const LogIn: React.FC = () => {
           Forgot password?
         </Anchor>
       </Group>
-      <Button fullWidth mt="xl" radius="md" onClick={handleLogin}>
+      <Button type="submit" fullWidth mt="xl" radius="md">
         Sign in
       </Button>
-    </Container>
+    </form>
   );
 };
 
