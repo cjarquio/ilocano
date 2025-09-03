@@ -7,18 +7,13 @@ import {
   TextInput,
 } from '@mantine/core';
 import { FormEvent, useState } from 'react';
+import { useForm } from '@mantine/form';
 
 export const LogIn: React.FC = () => {
-  const [loginInfo, setLoginInfo] = useState({ username: '', password: '' });
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-
-    setLoginInfo((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
+  const form = useForm({
+    mode: 'uncontrolled',
+    initialValues: { username: '', password: '' },
+  });
 
   const handleLogin = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -30,8 +25,8 @@ export const LogIn: React.FC = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          username: loginInfo.username,
-          password: loginInfo.password,
+          username: form.values.username,
+          password: form.values.password,
         }),
       })
         .then(async (response) => {
@@ -44,7 +39,7 @@ export const LogIn: React.FC = () => {
             console.log(successMessage);
           }
         })
-        .then(() => setLoginInfo({ username: '', password: '' }));
+        .then(() => form.reset());
     } catch (error) {
       console.error('Login failed:', error);
       // Handle login error (e.g., show notification)
@@ -57,8 +52,8 @@ export const LogIn: React.FC = () => {
         label="Username"
         required
         radius="md"
-        value={loginInfo.username}
-        onChange={handleChange}
+        key={form.key('username')}
+        {...form.getInputProps('username')}
         name="username"
       />
       <PasswordInput
@@ -66,8 +61,8 @@ export const LogIn: React.FC = () => {
         required
         mt="md"
         radius="md"
-        value={loginInfo.password}
-        onChange={handleChange}
+        key={form.key('password')}
+        {...form.getInputProps('password')}
         name="password"
       />
       <Group justify="space-between" mt="lg">
