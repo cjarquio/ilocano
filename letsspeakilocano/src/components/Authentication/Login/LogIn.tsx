@@ -8,12 +8,14 @@ import {
 } from '@mantine/core';
 import { FormEvent } from 'react';
 import { useForm } from '@mantine/form';
+import { useRouter } from 'next/navigation';
 
 export const LogIn: React.FC = () => {
   const form = useForm({
     mode: 'uncontrolled',
     initialValues: { username: '', password: '' },
   });
+  const router = useRouter();
 
   const handleLogin = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -39,7 +41,9 @@ export const LogIn: React.FC = () => {
             console.log(successMessage);
           }
         })
-        .then(() => form.reset());
+        .then(() => {
+          router.push('/thing');
+        });
     } catch (error) {
       console.error('Login failed:', error);
       // Handle login error (e.g., show notification)

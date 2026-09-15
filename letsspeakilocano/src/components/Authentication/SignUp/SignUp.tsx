@@ -1,9 +1,11 @@
 import { Button, Group, PasswordInput, TextInput } from '@mantine/core';
 import { useForm, isEmail, hasLength } from '@mantine/form';
+import { useRouter } from 'next/compat/router';
 import { FormEvent } from 'react';
 
 // TODO: Add Formik for form handling and validation
 export const SignUp: React.FC = () => {
+  const router = useRouter();
   const form = useForm({
     mode: 'uncontrolled',
     initialValues: {
@@ -16,20 +18,20 @@ export const SignUp: React.FC = () => {
     validate: {
       firstName: hasLength(
         { min: 2, max: 20 },
-        'First name must be between 2 and 20 characters'
+        'First name must be between 2 and 20 characters',
       ),
       lastName: hasLength(
         { min: 2, max: 20 },
-        'Last name must be between 2 and 20 characters'
+        'Last name must be between 2 and 20 characters',
       ),
       username: hasLength(
         { min: 3, max: 15 },
-        'Username must be between 3 and 15 characters'
+        'Username must be between 3 and 15 characters',
       ),
       email: isEmail('Invalid email'),
       password: hasLength(
         { min: 6 },
-        'Password must be at least 6 characters long'
+        'Password must be at least 6 characters long',
       ),
     },
   });
@@ -53,7 +55,7 @@ export const SignUp: React.FC = () => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
         } else {
-          form.reset();
+          router.push('thing');
         }
       });
     } catch (error) {
