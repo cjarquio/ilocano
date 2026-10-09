@@ -1,6 +1,6 @@
 import { Button, Group, PasswordInput, TextInput } from '@mantine/core';
 import { useForm, isEmail, hasLength } from '@mantine/form';
-import { useRouter } from 'next/compat/router';
+import { useRouter } from 'next/navigation';
 import { FormEvent } from 'react';
 
 // TODO: Add Formik for form handling and validation
